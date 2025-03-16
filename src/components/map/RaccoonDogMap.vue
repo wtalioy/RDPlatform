@@ -242,16 +242,16 @@
     .district-list {
         max-height: 600rpx;
         overflow-y: auto;
+        transition: max-height 1.4s ease;
     }
 
     .district-item {
-        margin-bottom: 5rpx;
+        margin-bottom: 2rpx;
     }
 
     .district-info {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 6rpx;
         align-items: flex-end;
         width: 100%;
         /* 确保占满整个容器宽度 */
