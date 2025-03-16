@@ -5,7 +5,7 @@
         </map>
 
         <!-- 可折叠统计面板 -->
-        <view class="stats-panel" :class="{ 'stats-panel-expanded': isStatsExpanded }">
+        <view class="stats-panel">
             <view class="stats-header" @click="toggleStats">
                 <text class="stats-title">貉口数量</text>
                 <img src="/static/angle-down.svg" :class="{ 'rotate': isStatsExpanded }" class="togglebtn" />
@@ -208,22 +208,26 @@
     }
 
     .stats-header {
-        padding: 20rpx;
-        padding-bottom: 5rpx;
+        padding: 20rpx 20rpx;
+        margin: -4rpx;
         display: flex;
         justify-content: space-between;
         align-items: center;
         cursor: pointer;
+        transition: background-color 0.2s ease;
+        border-radius: 24rpx 24rpx 0 0;
+        position: relative;
     }
 
     .stats-title {
         font-size: 28rpx;
-        font-weight: bold;
         color: #333;
+        font-weight: bold;
     }
 
     .stats-content {
-        padding: 0 20rpx 0rpx;
+        padding: 0 20rpx 10rpx;
+        /* 恢复原来的内边距 */
         border-radius: 0 0 24rpx 24rpx;
     }
 
