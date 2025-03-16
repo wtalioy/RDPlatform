@@ -1,0 +1,18 @@
+{
+    "permissions": {
+        "openapi": []
+    },
+    "testData": {
+        "testAdd": {
+            "name": "测试貉",
+            "district": "浦东新区",
+            "latitude": 31.187869,
+            "longitude": 121.523913,
+            "character": "这是一只测试用的貉，性格活泼。",
+            "story": "这是测试貉的故事。",
+            "photos": [
+                "/static/images/raccoons/test.png"
+            ]
+        }
+    }
+}

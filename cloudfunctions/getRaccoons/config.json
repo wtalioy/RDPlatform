@@ -1,0 +1,16 @@
+{
+    "permissions": {
+        "openapi": []
+    },
+    "testData": {
+        "getAllRaccoons": {
+            "page": 1,
+            "pageSize": 10
+        },
+        "getRaccoonsByDistrict": {
+            "district": "浦东新区",
+            "page": 1,
+            "pageSize": 10
+        }
+    }
+}
