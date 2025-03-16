@@ -7,7 +7,7 @@
         <!-- 可折叠统计面板 -->
         <view class="stats-panel" :class="{ 'stats-panel-expanded': isStatsExpanded }">
             <view class="stats-header" @click="toggleStats">
-                <text class="stats-title">{{'貉口数量：' + totalCount}}</text>
+                <text class="stats-title">貉口数量</text>
                 <img src="/static/angle-down.svg" :class="{ 'rotate': isStatsExpanded }" class="togglebtn" />
             </view>
             <view v-show="isStatsExpanded" class="stats-content">
@@ -16,9 +16,6 @@
                         <view class="district-info">
                             <text class="district-name">{{ district }}</text>
                             <text class="district-count">{{ count }}</text>
-                        </view>
-                        <view class="progress-bar">
-                            <view class="progress" :style="{ width: (count / maxCount * 100) + '%' }"></view>
                         </view>
                     </view>
                 </scroll-view>
@@ -73,22 +70,16 @@
                     })
 
                     if (result.success) {
-                        const stats = {}
-                        let total = 0
-                        let max = 0
-
-                        result.data.list.forEach(item => {
-                            stats[item.district] = item.count
-                            total += item.count
-                            max = Math.max(max, item.count)
-                        })
-
-                        this.districtStats = stats
-                        this.totalCount = total
-                        this.maxCount = max
+                        const sortedData = result.data.list
+                            .sort((a, b) => b.count - a.count);
+                        const stats = {};
+                        sortedData.forEach(item => {
+                            stats[item.district] = item.count;
+                        });
+                        this.districtStats = stats;
                     }
                 } catch (error) {
-                    console.error('获取统计数据失败：', error)
+                    console.error('获取统计数据失败：', error);
                 }
             },
             async loadData() {
@@ -206,18 +197,19 @@
     .stats-panel {
         position: absolute;
         top: 20rpx;
-        left: 20rpx;
-        background-color: rgba(255, 255, 255, 0.85);
-        border-radius: 12rpx;
+        right: 20rpx;
+        width: 190rpx;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 24rpx;
         box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease;
         z-index: 100;
         backdrop-filter: blur(10px);
-        max-width: 400rpx;
     }
 
     .stats-header {
         padding: 20rpx;
+        padding-bottom: 5rpx;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -225,15 +217,14 @@
     }
 
     .stats-title {
-        font-size: 32rpx;
+        font-size: 28rpx;
         font-weight: bold;
         color: #333;
     }
 
     .stats-content {
-        padding: 0 20rpx 20rpx;
-        background-color: rgba(255, 255, 255, 0.9);
-        border-radius: 0 0 12rpx 12rpx;
+        padding: 0 20rpx 0rpx;
+        border-radius: 0 0 24rpx 24rpx;
     }
 
     .total-count {
@@ -245,47 +236,39 @@
     }
 
     .district-list {
-        max-height: 400rpx;
+        max-height: 600rpx;
         overflow-y: auto;
     }
 
     .district-item {
-        margin-bottom: 15rpx;
+        margin-bottom: 5rpx;
     }
 
     .district-info {
         display: flex;
         justify-content: space-between;
         margin-bottom: 6rpx;
+        align-items: flex-end;
+        width: 100%;
+        /* 确保占满整个容器宽度 */
     }
 
     .district-name {
         font-size: 26rpx;
         color: #333;
+        flex-shrink: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .district-count {
         font-size: 26rpx;
         color: #666;
-    }
-
-    .progress-bar {
-        width: 100%;
-        height: 6rpx;
-        background-color: rgba(0, 0, 0, 0.1);
-        border-radius: 3rpx;
-        overflow: hidden;
-    }
-
-    .progress {
-        height: 100%;
-        background-color: #4CAF50;
-        border-radius: 3rpx;
-        transition: width 0.3s ease;
-    }
-
-    .stats-panel-expanded {
-        min-width: 300rpx;
+        min-width: 50rpx;
+        text-align: right;
+        flex-shrink: 0;
+        margin-left: 5rpx;
     }
 
     .rotate {
@@ -297,6 +280,7 @@
         width: 30rpx;
         height: 30rpx;
         transition: transform 0.3s ease;
+        margin-top: 5rpx;
     }
 
 </style>
