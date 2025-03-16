@@ -8,14 +8,14 @@
         <view class="stats-panel" :class="{ 'stats-panel-expanded': isStatsExpanded }">
             <view class="stats-header" @click="toggleStats">
                 <text class="stats-title">{{'貉口数量：' + totalCount}}</text>
-                <text class="toggle-icon" :class="{ 'rotate': isStatsExpanded }">▼</text>
+                <img src="/static/angle-down.svg" :class="{ 'rotate': isStatsExpanded }" class="togglebtn" />
             </view>
             <view v-show="isStatsExpanded" class="stats-content">
                 <scroll-view scroll-y class="district-list">
                     <view v-for="(count, district) in districtStats" :key="district" class="district-item">
                         <view class="district-info">
                             <text class="district-name">{{ district }}</text>
-                            <text class="district-count">{{ count }}只</text>
+                            <text class="district-count">{{ count }}</text>
                         </view>
                         <view class="progress-bar">
                             <view class="progress" :style="{ width: (count / maxCount * 100) + '%' }"></view>
@@ -175,7 +175,7 @@
 
     .map-controls {
         position: absolute;
-        bottom: 120rpx;
+        bottom: 40rpx;
         right: 30rpx;
         display: flex;
         flex-direction: column;
@@ -228,12 +228,6 @@
         font-size: 32rpx;
         font-weight: bold;
         color: #333;
-    }
-
-    .stats-toggle {
-        font-size: 24rpx;
-        color: #666;
-        margin-left: 20rpx;
     }
 
     .stats-content {
@@ -299,9 +293,10 @@
         transition: transform 0.3s ease;
     }
 
-    .toggle-icon {
-        font-size: 24rpx;
-        color: #666;
+    .togglebtn {
+        width: 30rpx;
+        height: 30rpx;
         transition: transform 0.3s ease;
     }
+
 </style>
