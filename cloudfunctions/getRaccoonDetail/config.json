@@ -7,7 +7,7 @@
             "page": 1,
             "pageSize": 10
         },
-        "getRaccoonsByDistrict": {
+        "getRaccoonDetail": {
             "district": "浦东新区",
             "page": 1,
             "pageSize": 10

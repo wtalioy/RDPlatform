@@ -2,7 +2,7 @@
 export const getRaccoonList = async () => {
     try {
         const { result } = await wx.cloud.callFunction({
-            name: 'getRaccoons'
+            name: 'getRaccoonDetail'
         })
         return result.success ? result.data : { list: [], total: 0 }
     } catch (error) {
@@ -11,7 +11,19 @@ export const getRaccoonList = async () => {
     }
 }
 
-// 区域统计API
+export const getRaccoonDetail = async (id) => {
+    try {
+        const { result } = await wx.cloud.callFunction({
+            name: 'getRaccoonDetail',
+            data: { id }
+        })
+        return result.success ? result.data : null
+    } catch (error) {
+        console.error('获取貉详情失败：', error)
+        return null
+    }
+}
+
 export const getDistrictStats = async () => {
     try {
         const { result } = await wx.cloud.callFunction({
@@ -25,7 +37,7 @@ export const getDistrictStats = async () => {
 }
 
 // 数据收集相关API
-export const uploadImage = async (filePath) => {
+export const uploadWildlifeImage = async (filePath) => {
     try {
         const cloudPath = `wildlife-data/${Date.now()}-${Math.random().toString(36).substr(2)}.${filePath.match(/\.([^.]+)$/)[1]}`
         const { fileID } = await wx.cloud.uploadFile({
@@ -64,7 +76,7 @@ export const getUserContributions = async () => {
     }
 }
 
-// 统一处理错误
+// 统一错误处理
 const handleError = (error) => {
     console.error(error)
     uni.showToast({

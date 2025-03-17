@@ -61,7 +61,7 @@
 </template>
 
 <script>
-    import { uploadImage, submitWildlifeData, getUserContributions } from '@/api/raccoonApi'
+    import { uploadWildlifeImage, submitWildlifeData, getUserContributions } from '@/api/raccoonApi'
 
     export default {
         data() {
@@ -148,7 +148,7 @@
 
                 try {
                     // 上传图片
-                    const uploadPromises = this.formData.images.map(image => uploadImage(image))
+                    const uploadPromises = this.formData.images.map(image => uploadWildlifeImage(image))
                     const uploadResults = await Promise.all(uploadPromises)
                     const uploadedImages = uploadResults
                         .filter(result => result.success)
