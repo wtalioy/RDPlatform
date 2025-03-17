@@ -34,6 +34,8 @@
 </template>
 
 <script>
+    import { getRaccoonList, getDistrictStats } from '@/api/raccoonApi.js'
+
     export default {
         name: 'RaccoonDogMap',
         data() {
@@ -63,57 +65,36 @@
                 this.isStatsExpanded = !this.isStatsExpanded;
             },
             async loadStats() {
-                try {
-                    const { result } = await wx.cloud.callFunction({
-                        name: 'getDistrictStats',
-                        data: {}
+                const result = await getDistrictStats()
+                if (result.list) {
+                    const sortedData = result.list.sort((a, b) => b.count - a.count)
+                    const stats = {}
+                    sortedData.forEach(item => {
+                        stats[item.district] = item.count
                     })
-
-                    if (result.success) {
-                        const sortedData = result.data.list
-                            .sort((a, b) => b.count - a.count);
-                        const stats = {};
-                        sortedData.forEach(item => {
-                            stats[item.district] = item.count;
-                        });
-                        this.districtStats = stats;
-                    }
-                } catch (error) {
-                    console.error('获取统计数据失败：', error);
+                    this.districtStats = stats
                 }
             },
             async loadData() {
-                try {
-                    const { result: raccoonResult } = await wx.cloud.callFunction({
-                        name: 'getRaccoons',
-                        data: {}
-                    })
-
-                    if (raccoonResult.success && raccoonResult.data.list) {
-                        this.markers = raccoonResult.data.list.map(raccoon => ({
-                            id: raccoon.id,
-                            latitude: raccoon.latitude,
-                            longitude: raccoon.longitude,
-                            iconPath: raccoon.avatar || '/static/images/raccoons/default.png',
-                            width: 40,
-                            height: 40,
-                            callout: {
-                                content: raccoon.name,
-                                color: '#000000',
-                                fontSize: 14,
-                                borderRadius: 4,
-                                bgColor: '#ffffff',
-                                padding: 5,
-                                display: 'ALWAYS'
-                            }
-                        }))
-                    }
-                } catch (error) {
-                    console.error('加载地图数据失败：', error)
-                    uni.showToast({
-                        title: '加载数据失败',
-                        icon: 'none'
-                    })
+                const result = await getRaccoonList()
+                if (result.list) {
+                    this.markers = result.list.map(raccoon => ({
+                        id: raccoon.id,
+                        latitude: raccoon.latitude,
+                        longitude: raccoon.longitude,
+                        iconPath: raccoon.avatar || '/static/images/raccoons/default.png',
+                        width: 40,
+                        height: 40,
+                        callout: {
+                            content: raccoon.name,
+                            color: '#000000',
+                            fontSize: 14,
+                            borderRadius: 4,
+                            bgColor: '#ffffff',
+                            padding: 5,
+                            display: 'ALWAYS'
+                        }
+                    }))
                 }
             },
             zoomIn() {
