@@ -1,0 +1,9 @@
+{
+    "name": "submitWildlifeData",
+    "version": "1.0.0",
+    "description": "提交野生动物观察数据",
+    "main": "index.js",
+    "dependencies": {
+        "wx-server-sdk": "~2.6.3"
+    }
+}

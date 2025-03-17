@@ -1,0 +1,394 @@
+<template>
+    <view class="data-collection">
+        <view class="header">
+            <text class="title">分享您的观察</text>
+            <text class="subtitle">记录您与城市野生动物的故事</text>
+        </view>
+
+        <view class="form-container">
+            <!-- 故事分享 -->
+            <view class="form-section">
+                <text class="section-title">分享故事</text>
+                <textarea
+                    v-model="formData.story"
+                    placeholder="分享您与城市野生动物的故事..."
+                    class="story-input"
+                    maxlength="1000"
+                />
+                <text class="word-count">{{formData.story.length}}/1000</text>
+            </view>
+
+            <!-- 影像上传 -->
+            <view class="form-section">
+                <text class="section-title">上传影像</text>
+                <view class="image-upload">
+                    <view class="image-list">
+                        <view v-for="(image, index) in formData.images" :key="index" class="image-item">
+                            <image :src="image" mode="aspectFill" @tap="previewImage(image)" />
+                            <text class="delete-btn" @tap="deleteImage(index)">×</text>
+                        </view>
+                        <view v-if="formData.images.length < 9" class="upload-btn" @tap="chooseImage">
+                            <text class="plus">+</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+
+            <!-- 足迹数据 -->
+            <view class="form-section">
+                <text class="section-title">记录足迹</text>
+                <view class="location-section">
+                    <text class="location-text">{{locationText}}</text>
+                    <button class="location-btn" @tap="getLocation">
+                        {{formData.location ? '更新位置' : '获取位置'}}
+                    </button>
+                </view>
+            </view>
+
+            <button class="submit-btn" @click="submitData" :disabled="!canSubmit">
+                提交记录
+            </button>
+
+            <!-- 数据收集进度 -->
+            <view class="progress-section">
+                <text class="progress-title">数据收集进度</text>
+                <view class="progress-bar">
+                    <view class="progress" :style="{ width: progressWidth }"></view>
+                </view>
+                <text class="progress-text">已收集 {{userContributions}} 条数据</text>
+                <text class="reward-text" v-if="!hasUnlockedReward && userContributions >= requiredContributions">
+                    🎉 恭喜解锁限定小貉公仔！
+                </text>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            formData: {
+                story: '',
+                images: [],
+                location: null,
+                timestamp: null
+            },
+            locationText: '尚未获取位置',
+            userContributions: 0,
+            requiredContributions: 10,
+            hasUnlockedReward: false
+        }
+    },
+    computed: {
+        canSubmit() {
+            return this.formData.story.trim() || 
+                   this.formData.images.length > 0 || 
+                   this.formData.location
+        },
+        progressWidth() {
+            const progress = Math.min(this.userContributions / this.requiredContributions * 100, 100)
+            return progress + '%'
+        }
+    },
+    async onLoad() {
+        await this.loadUserContributions()
+    },
+    methods: {
+        async chooseImage() {
+            try {
+                const res = await uni.chooseImage({
+                    count: 9 - this.formData.images.length,
+                    sizeType: ['compressed'],
+                    sourceType: ['album', 'camera']
+                })
+                this.formData.images = [...this.formData.images, ...res.tempFilePaths]
+            } catch (error) {
+                uni.showToast({
+                    title: '选择图片失败',
+                    icon: 'none'
+                })
+            }
+        },
+        deleteImage(index) {
+            this.formData.images.splice(index, 1)
+        },
+        previewImage(current) {
+            uni.previewImage({
+                urls: this.formData.images,
+                current
+            })
+        },
+        async getLocation() {
+            try {
+                const res = await uni.getLocation({
+                    type: 'gcj02'
+                })
+                this.formData.location = {
+                    latitude: res.latitude,
+                    longitude: res.longitude
+                }
+                this.locationText = `位置已获取 (${res.latitude.toFixed(4)}, ${res.longitude.toFixed(4)})`
+            } catch (error) {
+                uni.showToast({
+                    title: '获取位置失败',
+                    icon: 'none'
+                })
+            }
+        },
+        async loadUserContributions() {
+            try {
+                const { result } = await wx.cloud.callFunction({
+                    name: 'getUserContributions'
+                })
+                if (result.success) {
+                    this.userContributions = result.data.count
+                    this.hasUnlockedReward = result.data.hasUnlockedReward
+                }
+            } catch (error) {
+                console.error('获取用户贡献数据失败：', error)
+            }
+        },
+        async submitData() {
+            if (!this.canSubmit) return
+
+            uni.showLoading({
+                title: '正在提交...'
+            })
+
+            try {
+                // 上传图片
+                const uploadedImages = []
+                for (const image of this.formData.images) {
+                    const { fileID } = await wx.cloud.uploadFile({
+                        cloudPath: `wildlife-data/${Date.now()}-${Math.random().toString(36).substr(2)}.${image.match(/\.([^.]+)$/)[1]}`,
+                        filePath: image
+                    })
+                    uploadedImages.push(fileID)
+                }
+
+                // 提交数据
+                const { result } = await wx.cloud.callFunction({
+                    name: 'submitWildlifeData',
+                    data: {
+                        story: this.formData.story,
+                        images: uploadedImages,
+                        location: this.formData.location,
+                        timestamp: new Date().toISOString()
+                    }
+                })
+
+                if (result.success) {
+                    uni.showToast({
+                        title: '提交成功',
+                        icon: 'success'
+                    })
+                    // 重置表单
+                    this.formData = {
+                        story: '',
+                        images: [],
+                        location: null,
+                        timestamp: null
+                    }
+                    this.locationText = '尚未获取位置'
+                    // 刷新贡献数据
+                    await this.loadUserContributions()
+                }
+            } catch (error) {
+                uni.showToast({
+                    title: '提交失败',
+                    icon: 'none'
+                })
+            } finally {
+                uni.hideLoading()
+            }
+        }
+    }
+}
+</script>
+
+<style>
+.data-collection {
+    padding: 30rpx;
+}
+
+.header {
+    margin-bottom: 40rpx;
+}
+
+.title {
+    font-size: 36rpx;
+    font-weight: bold;
+    color: #333;
+    display: block;
+}
+
+.subtitle {
+    font-size: 28rpx;
+    color: #666;
+    margin-top: 10rpx;
+    display: block;
+}
+
+.form-section {
+    margin-bottom: 40rpx;
+    background: #fff;
+    padding: 20rpx;
+    border-radius: 12rpx;
+    box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+    font-size: 30rpx;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20rpx;
+    display: block;
+}
+
+.story-input {
+    width: 100%;
+    height: 200rpx;
+    padding: 20rpx;
+    box-sizing: border-box;
+    border: 1rpx solid #eee;
+    border-radius: 8rpx;
+    font-size: 28rpx;
+}
+
+.word-count {
+    font-size: 24rpx;
+    color: #999;
+    text-align: right;
+    margin-top: 10rpx;
+    display: block;
+}
+
+.image-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20rpx;
+}
+
+.image-item {
+    width: 200rpx;
+    height: 200rpx;
+    position: relative;
+}
+
+.image-item image {
+    width: 100%;
+    height: 100%;
+    border-radius: 8rpx;
+}
+
+.delete-btn {
+    position: absolute;
+    top: -20rpx;
+    right: -20rpx;
+    width: 40rpx;
+    height: 40rpx;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24rpx;
+}
+
+.upload-btn {
+    width: 200rpx;
+    height: 200rpx;
+    border: 2rpx dashed #ddd;
+    border-radius: 8rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.plus {
+    font-size: 60rpx;
+    color: #999;
+}
+
+.location-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.location-text {
+    font-size: 28rpx;
+    color: #666;
+    flex: 1;
+    margin-right: 20rpx;
+}
+
+.location-btn {
+    padding: 10rpx 30rpx;
+    background: #4C74AF;
+    color: #fff;
+    border-radius: 30rpx;
+    font-size: 26rpx;
+}
+
+.submit-btn {
+    width: 100%;
+    height: 80rpx;
+    background: #4C74AF;
+    color: #fff;
+    border-radius: 40rpx;
+    font-size: 32rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 40rpx 0;
+}
+
+.submit-btn[disabled] {
+    background: #ccc;
+}
+
+.progress-section {
+    background: #fff;
+    padding: 20rpx;
+    border-radius: 12rpx;
+    margin-top: 20rpx;
+}
+
+.progress-title {
+    font-size: 28rpx;
+    color: #333;
+    margin-bottom: 15rpx;
+    display: block;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20rpx;
+    background: #f0f0f0;
+    border-radius: 10rpx;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background: #4C74AF;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    font-size: 24rpx;
+    color: #666;
+    margin-top: 10rpx;
+    display: block;
+}
+
+.reward-text {
+    font-size: 26rpx;
+    color: #ff6b6b;
+    margin-top: 10rpx;
+    display: block;
+}
+</style>

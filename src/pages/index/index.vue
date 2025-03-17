@@ -13,10 +13,11 @@
         </view>
 
         <!-- 数据收集模块 -->
-        <view v-else-if="currentTab === 1" class="coming-soon">
-            <image src="/static/images/coming-soon.png" mode="aspectFit" class="coming-soon-img"></image>
-            <text class="coming-soon-text">数据收集功能即将上线</text>
-            <text class="coming-soon-desc">敬请期待，我们将很快推出市民共享城市野生动物故事功能</text>
+        <view v-else-if="currentTab === 1" class="data-collection-tab">
+            <view class="module-card" @tap="goToDataCollection">
+                <text class="module-title">分享您的观察</text>
+                <text class="module-desc">让我们一起记录城市中的野生动物</text>
+            </view>
         </view>
 
         <!-- 貉口认养模块（待开发）-->
@@ -45,6 +46,18 @@
         methods: {
             switchTab(index) {
                 this.currentTab = index
+            },
+            goToDataCollection() {
+                uni.navigateTo({
+                    url: '/pages/data-collection/index',
+                    fail: (err) => {
+                        console.error('导航失败：', err)
+                        uni.showToast({
+                            title: '页面跳转失败',
+                            icon: 'none'
+                        })
+                    }
+                })
             }
         }
     }
@@ -190,5 +203,27 @@
     .test-btn {
         margin-top: 20px;
         padding: 10px 20px;
+    }
+
+    .module-card {
+        background: #ffffff;
+        border-radius: 12rpx;
+        padding: 30rpx;
+        margin: 30rpx;
+        box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+    }
+
+    .module-title {
+        font-size: 36rpx;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20rpx;
+        display: block;
+    }
+
+    .module-desc {
+        font-size: 28rpx;
+        color: #666;
+        line-height: 1.5;
     }
 </style>

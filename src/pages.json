@@ -11,6 +11,12 @@
             "style": {
                 "navigationBarTitleText": "貉详情"
             }
+        },
+        {
+            "path": "pages/data-collection/index",
+            "style": {
+                "navigationBarTitleText": "数据收集"
+            }
         }
     ],
     "globalStyle": {
