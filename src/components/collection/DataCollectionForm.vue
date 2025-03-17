@@ -41,7 +41,7 @@
                 </view>
             </view>
 
-            <button class="submit-btn" @click="submitData" :disabled="!canSubmit">
+            <button class="submit-btn" @tap="submitData" :disabled="!canSubmit">
                 提交记录
             </button>
 
@@ -64,6 +64,7 @@
     import { uploadWildlifeImage, submitWildlifeData, getUserContributions } from '@/api/raccoonApi'
 
     export default {
+        name: 'DataCollectionForm',
         data() {
             return {
                 formData: {
@@ -89,8 +90,8 @@
                 return progress + '%'
             }
         },
-        async onLoad() {
-            await this.loadUserContributions()
+        mounted() {
+            this.loadUserContributions()
         },
         methods: {
             async chooseImage() {
@@ -147,14 +148,12 @@
                 })
 
                 try {
-                    // 上传图片
                     const uploadPromises = this.formData.images.map(image => uploadWildlifeImage(image))
                     const uploadResults = await Promise.all(uploadPromises)
                     const uploadedImages = uploadResults
                         .filter(result => result.success)
                         .map(result => result.fileID)
 
-                    // 提交数据
                     const result = await submitWildlifeData({
                         story: this.formData.story,
                         images: uploadedImages,
@@ -167,7 +166,6 @@
                             title: '提交成功',
                             icon: 'success'
                         })
-                        // 重置表单
                         this.formData = {
                             story: '',
                             images: [],
@@ -175,7 +173,6 @@
                             timestamp: null
                         }
                         this.locationText = '尚未获取位置'
-                        // 刷新贡献数据
                         await this.loadUserContributions()
                     }
                 } catch (error) {
@@ -193,7 +190,11 @@
 
 <style>
     .data-collection {
+        height: 100%;
+        overflow-y: auto;
         padding: 30rpx;
+        box-sizing: border-box;
+        background: #f8f8f8;
     }
 
     .header {

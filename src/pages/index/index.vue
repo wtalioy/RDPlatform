@@ -13,11 +13,8 @@
         </view>
 
         <!-- 数据收集模块 -->
-        <view v-else-if="currentTab === 1" class="data-collection-tab">
-            <view class="module-card" @tap="goToDataCollection">
-                <text class="module-title">分享您的观察</text>
-                <text class="module-desc">让我们一起记录城市中的野生动物</text>
-            </view>
+        <view v-else-if="currentTab === 1" class="collection-container">
+            <DataCollectionForm />
         </view>
 
         <!-- 貉口认养模块（待开发）-->
@@ -32,10 +29,12 @@
 
 <script>
     import RaccoonDogMap from '@/components/map/RaccoonDogMap.vue'
+    import DataCollectionForm from '@/components/collection/DataCollectionForm.vue'
 
     export default {
         components: {
-            RaccoonDogMap
+            RaccoonDogMap,
+            DataCollectionForm
         },
         data() {
             return {
@@ -46,18 +45,6 @@
         methods: {
             switchTab(index) {
                 this.currentTab = index
-            },
-            goToDataCollection() {
-                uni.navigateTo({
-                    url: '/pages/data-collection/index',
-                    fail: (err) => {
-                        console.error('导航失败：', err)
-                        uni.showToast({
-                            title: '页面跳转失败',
-                            icon: 'none'
-                        })
-                    }
-                })
             }
         }
     }
@@ -225,5 +212,12 @@
         font-size: 28rpx;
         color: #666;
         line-height: 1.5;
+    }
+
+    .collection-container {
+        flex: 1;
+        position: relative;
+        width: 100%;
+        height: calc(100vh - 100rpx);
     }
 </style>
