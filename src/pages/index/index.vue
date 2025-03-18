@@ -14,7 +14,28 @@
 
         <!-- 数据收集模块 -->
         <view v-else-if="currentTab === 1" class="collection-container">
-            <DataCollectionForm />
+            <!-- 未展开表单时显示大按钮和数据收集进度 -->
+            <view v-if="!showCollectionForm" class="collection-intro">
+                <view class="share-button" @tap="showForm">
+                    <text class="share-title">分享您的观察</text>
+                    <text class="share-subtitle">让我们一起记录城市中的野生动物</text>
+                </view>
+
+                <!-- 数据收集进度 -->
+                <view class="progress-section">
+                    <text class="progress-title">数据收集进度</text>
+                    <view class="progress-bar">
+                        <view class="progress" :style="{ width: progressWidth }"></view>
+                    </view>
+                    <text class="progress-text">已收集 {{ userContributions }} 条数据</text>
+                    <text class="reward-text" v-if="!hasUnlockedReward && userContributions >= requiredContributions">
+                        🎉 恭喜解锁限定小貉公仔！
+                    </text>
+                </view>
+            </view>
+
+            <!-- 点击按钮后展示表单 -->
+            <DataCollectionForm v-else @back="hideForm" />
         </view>
 
         <!-- 貉口认养模块（待开发）-->
@@ -30,6 +51,7 @@
 <script>
     import RaccoonDogMap from '@/components/map/RaccoonDogMap.vue'
     import DataCollectionForm from '@/components/collection/DataCollectionForm.vue'
+    import { getUserContributions } from '@/api/raccoonApi'
 
     export default {
         components: {
@@ -39,12 +61,39 @@
         data() {
             return {
                 currentTab: 0,
-                tabs: ['貉情地图', '数据收集', '貉口认养']
+                tabs: ['貉情地图', '数据收集', '貉口认养'],
+                showCollectionForm: false,
+                userContributions: 0,
+                requiredContributions: 10,
+                hasUnlockedReward: false
+            }
+        },
+        computed: {
+            progressWidth() {
+                const progress = Math.min(this.userContributions / this.requiredContributions * 100, 100)
+                return progress + '%'
             }
         },
         methods: {
             switchTab(index) {
                 this.currentTab = index
+                if (index === 1) {
+                    // 切换到数据收集标签页时加载用户贡献数据
+                    this.loadUserContributions()
+                }
+            },
+            showForm() {
+                this.showCollectionForm = true
+            },
+            hideForm() {
+                this.showCollectionForm = false
+                // 隐藏表单后重新加载用户贡献数据
+                this.loadUserContributions()
+            },
+            async loadUserContributions() {
+                const result = await getUserContributions()
+                this.userContributions = result.count
+                this.hasUnlockedReward = result.hasUnlockedReward
             }
         }
     }
@@ -219,5 +268,83 @@
         position: relative;
         width: 100%;
         height: calc(100vh - 100rpx);
+        background-color: #f8f8f8;
+    }
+
+    .collection-intro {
+        display: flex;
+        flex-direction: column;
+        padding: 40rpx;
+        height: 100%;
+    }
+
+    .share-button {
+        background: #ffffff;
+        border-radius: 16rpx;
+        padding: 60rpx 40rpx;
+        margin-bottom: 40rpx;
+        text-align: center;
+        box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .share-title {
+        font-size: 40rpx;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20rpx;
+    }
+
+    .share-subtitle {
+        font-size: 30rpx;
+        color: #666;
+        line-height: 1.5;
+    }
+
+    .progress-section {
+        background: #ffffff;
+        padding: 30rpx;
+        border-radius: 16rpx;
+        box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+    }
+
+    .progress-title {
+        font-size: 32rpx;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20rpx;
+        display: block;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 24rpx;
+        background: #f0f0f0;
+        border-radius: 12rpx;
+        overflow: hidden;
+    }
+
+    .progress {
+        height: 100%;
+        background: #4C74AF;
+        transition: width 0.3s ease;
+    }
+
+    .progress-text {
+        font-size: 28rpx;
+        color: #666;
+        margin-top: 20rpx;
+        display: block;
+    }
+
+    .reward-text {
+        font-size: 30rpx;
+        color: #ff6b6b;
+        margin-top: 15rpx;
+        display: block;
+        font-weight: bold;
     }
 </style>

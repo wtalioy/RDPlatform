@@ -1,6 +1,10 @@
 <template>
     <view class="data-collection">
         <view class="header">
+            <view class="back-btn" @tap="goBack">
+                <text class="back-icon">←</text>
+                <text class="back-text">返回</text>
+            </view>
             <text class="title">分享您的观察</text>
             <text class="subtitle">记录您与城市野生动物的故事</text>
         </view>
@@ -44,27 +48,16 @@
             <button class="submit-btn" @tap="submitData" :disabled="!canSubmit">
                 提交记录
             </button>
-
-            <!-- 数据收集进度 -->
-            <view class="progress-section">
-                <text class="progress-title">数据收集进度</text>
-                <view class="progress-bar">
-                    <view class="progress" :style="{ width: progressWidth }"></view>
-                </view>
-                <text class="progress-text">已收集 {{ userContributions }} 条数据</text>
-                <text class="reward-text" v-if="!hasUnlockedReward && userContributions >= requiredContributions">
-                    🎉 恭喜解锁限定小貉公仔！
-                </text>
-            </view>
         </view>
     </view>
 </template>
 
 <script>
-    import { uploadWildlifeImage, submitWildlifeData, getUserContributions } from '@/api/raccoonApi'
+    import { uploadWildlifeImage, submitWildlifeData } from '@/api/raccoonApi'
 
     export default {
         name: 'DataCollectionForm',
+        emits: ['back'],
         data() {
             return {
                 formData: {
@@ -73,10 +66,7 @@
                     location: null,
                     timestamp: null
                 },
-                locationText: '尚未获取位置',
-                userContributions: 0,
-                requiredContributions: 10,
-                hasUnlockedReward: false
+                locationText: '尚未获取位置'
             }
         },
         computed: {
@@ -84,16 +74,12 @@
                 return this.formData.story.trim() ||
                     this.formData.images.length > 0 ||
                     this.formData.location
-            },
-            progressWidth() {
-                const progress = Math.min(this.userContributions / this.requiredContributions * 100, 100)
-                return progress + '%'
             }
         },
-        mounted() {
-            this.loadUserContributions()
-        },
         methods: {
+            goBack() {
+                this.$emit('back')
+            },
             async chooseImage() {
                 try {
                     const res = await uni.chooseImage({
@@ -135,11 +121,6 @@
                     })
                 }
             },
-            async loadUserContributions() {
-                const result = await getUserContributions()
-                this.userContributions = result.count
-                this.hasUnlockedReward = result.hasUnlockedReward
-            },
             async submitData() {
                 if (!this.canSubmit) return
 
@@ -173,7 +154,9 @@
                             timestamp: null
                         }
                         this.locationText = '尚未获取位置'
-                        await this.loadUserContributions()
+                        setTimeout(() => {
+                            this.goBack()
+                        }, 1500)
                     }
                 } catch (error) {
                     uni.showToast({
@@ -199,6 +182,23 @@
 
     .header {
         margin-bottom: 40rpx;
+        position: relative;
+    }
+
+    .back-btn {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20rpx;
+    }
+
+    .back-icon {
+        font-size: 36rpx;
+        margin-right: 8rpx;
+    }
+
+    .back-text {
+        font-size: 28rpx;
+        color: #4C74AF;
     }
 
     .title {
@@ -333,47 +333,5 @@
 
     .submit-btn[disabled] {
         background: #ccc;
-    }
-
-    .progress-section {
-        background: #fff;
-        padding: 20rpx;
-        border-radius: 12rpx;
-        margin-top: 20rpx;
-    }
-
-    .progress-title {
-        font-size: 28rpx;
-        color: #333;
-        margin-bottom: 15rpx;
-        display: block;
-    }
-
-    .progress-bar {
-        width: 100%;
-        height: 20rpx;
-        background: #f0f0f0;
-        border-radius: 10rpx;
-        overflow: hidden;
-    }
-
-    .progress {
-        height: 100%;
-        background: #4C74AF;
-        transition: width 0.3s ease;
-    }
-
-    .progress-text {
-        font-size: 24rpx;
-        color: #666;
-        margin-top: 10rpx;
-        display: block;
-    }
-
-    .reward-text {
-        font-size: 26rpx;
-        color: #ff6b6b;
-        margin-top: 10rpx;
-        display: block;
     }
 </style>
