@@ -1,12 +1,9 @@
 <template>
     <view class="data-collection">
         <view class="header">
-            <view class="back-btn" @tap="goBack">
-                <text class="back-icon">←</text>
-                <text class="back-text">返回</text>
-            </view>
-            <text class="title">分享您的观察</text>
-            <text class="subtitle">记录您与城市野生动物的故事</text>
+            <button class="back-btn" @tap="goBack">
+                <text>返回</text>
+            </button>
         </view>
 
         <view class="form-container">
@@ -46,7 +43,7 @@
             </view>
 
             <button class="submit-btn" @tap="submitData" :disabled="!canSubmit">
-                提交记录
+                提交啦!
             </button>
         </view>
     </view>
@@ -181,24 +178,18 @@
     }
 
     .header {
-        margin-bottom: 40rpx;
+        margin-bottom: 20rpx;
         position: relative;
     }
 
     .back-btn {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20rpx;
-    }
-
-    .back-icon {
-        font-size: 36rpx;
-        margin-right: 8rpx;
-    }
-
-    .back-text {
-        font-size: 28rpx;
-        color: #4C74AF;
+        padding: 10rpx 30rpx;
+        background: #4C74AF;
+        color: #fff;
+        border-radius: 35rpx;
+        font-size: 30rpx;
+        display: inline-block;
+        line-height: 1.5;
     }
 
     .title {
@@ -218,8 +209,8 @@
     .form-section {
         margin-bottom: 40rpx;
         background: #fff;
-        padding: 20rpx;
-        border-radius: 12rpx;
+        padding: 25rpx;
+        border-radius: 15rpx;
         box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
     }
 
@@ -227,13 +218,14 @@
         font-size: 30rpx;
         font-weight: bold;
         color: #333;
-        margin-bottom: 20rpx;
+        margin: 10rpx 0 20rpx;
         display: block;
     }
 
     .story-input {
         width: 100%;
         height: 200rpx;
+        margin-top: 35rpx;
         padding: 20rpx;
         box-sizing: border-box;
         border: 1rpx solid #eee;
@@ -247,6 +239,10 @@
         text-align: right;
         margin-top: 10rpx;
         display: block;
+    }
+
+    .image-upload {
+        margin: 35rpx 0 20rpx;
     }
 
     .image-list {
@@ -314,24 +310,26 @@
         padding: 10rpx 30rpx;
         background: #4C74AF;
         color: #fff;
-        border-radius: 30rpx;
+        border-radius: 35rpx;
         font-size: 26rpx;
+        line-height: 1.6;
     }
 
     .submit-btn {
-        width: 100%;
+        width: 80%;
         height: 80rpx;
         background: #4C74AF;
         color: #fff;
-        border-radius: 40rpx;
+        border-radius: 35rpx;
         font-size: 32rpx;
+        font-weight: bold;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 40rpx 0;
+        margin: 60rpx auto;
     }
 
     .submit-btn[disabled] {
-        background: #ccc;
+        background: #cccccc8e;
     }
 </style>

@@ -17,17 +17,17 @@
             <!-- 未展开表单时显示大按钮和数据收集进度 -->
             <view v-if="!showCollectionForm" class="collection-intro">
                 <view class="share-button" @tap="showForm">
-                    <text class="share-title">分享您的观察</text>
+                    <text class="share-title">留下您的足迹</text>
                     <text class="share-subtitle">让我们一起记录城市中的野生动物</text>
                 </view>
 
                 <!-- 数据收集进度 -->
                 <view class="progress-section">
-                    <text class="progress-title">数据收集进度</text>
+                    <text class="progress-title">足迹进度</text>
                     <view class="progress-bar">
                         <view class="progress" :style="{ width: progressWidth }"></view>
                     </view>
-                    <text class="progress-text">已收集 {{ userContributions }} 条数据</text>
+                    <text class="progress-text">已集齐 {{ userContributions }} 条足迹</text>
                     <text class="reward-text" v-if="!hasUnlockedReward && userContributions >= requiredContributions">
                         🎉 恭喜解锁限定小貉公仔！
                     </text>
@@ -280,11 +280,11 @@
 
     .share-button {
         background: #ffffff;
-        border-radius: 16rpx;
+        border-radius: 20rpx;
         padding: 60rpx 40rpx;
         margin-bottom: 40rpx;
         text-align: center;
-        box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+        box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.10);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -315,13 +315,13 @@
         font-size: 32rpx;
         font-weight: bold;
         color: #333;
-        margin-bottom: 20rpx;
         display: block;
     }
 
     .progress-bar {
         width: 100%;
         height: 24rpx;
+        margin: 30rpx auto;
         background: #f0f0f0;
         border-radius: 12rpx;
         overflow: hidden;
