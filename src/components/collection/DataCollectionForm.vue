@@ -2,7 +2,8 @@
     <view class="data-collection">
         <view class="header">
             <button class="back-btn" @tap="goBack">
-                <text>返回</text>
+                <text class="iconfont icon-back"></text>
+                <text class="back-text">返回</text>
             </button>
         </view>
 
@@ -180,16 +181,23 @@
     .header {
         margin-bottom: 20rpx;
         position: relative;
+        display: flex;
+        justify-content: flex-start;
+        /* 左对齐 */
     }
 
     .back-btn {
+        height: 80rpx;
+        width: 170rpx;
         padding: 10rpx 30rpx;
         background: #4C74AF;
         color: #fff;
-        border-radius: 35rpx;
+        border-radius: 38rpx;
         font-size: 30rpx;
-        display: inline-block;
-        line-height: 1.5;
+        display: flex;
+        align-items: center;
+        /* justify-content: center; */
+        margin-left: 0;
     }
 
     .title {
