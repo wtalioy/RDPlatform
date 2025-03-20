@@ -8,7 +8,7 @@
         <view class="stats-panel">
             <view class="stats-header" @click="toggleStats">
                 <text class="stats-title">貉口数量</text>
-                <img src="/static/angle-down.svg" :class="{ 'rotate': isStatsExpanded }" class="togglebtn" />
+                <i class="iconfont icon-angle-right togglebtn" :class="{ rotate: isStatsExpanded }"></i>
             </view>
             <view v-show="isStatsExpanded" class="stats-content">
                 <scroll-view scroll-y class="district-list">
@@ -181,7 +181,7 @@
         right: 20rpx;
         width: 190rpx;
         background-color: rgba(255, 255, 255, 0.5);
-        border-radius: 24rpx;
+        border-radius: 28rpx;
         box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease;
         z-index: 100;
@@ -189,26 +189,25 @@
     }
 
     .stats-header {
-        padding: 20rpx 20rpx;
+        padding: 20rpx 24rpx;
         margin: -4rpx;
         display: flex;
         justify-content: space-between;
         align-items: center;
         cursor: pointer;
         transition: background-color 0.2s ease;
-        border-radius: 24rpx 24rpx 0 0;
+        border-radius: 28rpx 28rpx 0 0;
         position: relative;
     }
 
     .stats-title {
-        font-size: 28rpx;
+        font-size: 30rpx;
         color: #333;
         font-weight: bold;
     }
 
     .stats-content {
-        padding: 0 20rpx 10rpx;
-        /* 恢复原来的内边距 */
+        padding: 0 25rpx 10rpx;
         border-radius: 0 0 24rpx 24rpx;
     }
 
@@ -257,15 +256,16 @@
     }
 
     .rotate {
-        transform: rotate(180deg);
-        transition: transform 0.3s ease;
+        transform: rotate(90deg);
     }
 
     .togglebtn {
-        width: 30rpx;
-        height: 30rpx;
         transition: transform 0.3s ease;
-        margin-top: 5rpx;
+        transform: rotate(0deg);
+    }
+
+    .togglebtn.rotate {
+        transform: rotate(90deg);
     }
 
 </style>

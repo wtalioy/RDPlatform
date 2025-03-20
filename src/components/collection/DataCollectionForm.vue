@@ -3,7 +3,7 @@
         <view class="header">
             <button class="back-btn" @tap="goBack">
                 <text class="iconfont icon-back"></text>
-                <text class="back-text">返回</text>
+                <text>返回</text>
             </button>
         </view>
 
@@ -38,7 +38,7 @@
                 <view class="location-section">
                     <text class="location-text">{{ locationText }}</text>
                     <button class="location-btn" @tap="getLocation">
-                        {{ formData.location ? '更新位置' : '获取位置' }}
+                        {{ formData.location ? '更新' : '获取' }}
                     </button>
                 </view>
             </view>
@@ -69,8 +69,8 @@
         },
         computed: {
             canSubmit() {
-                return this.formData.story.trim() ||
-                    this.formData.images.length > 0 ||
+                return this.formData.story.trim() &&
+                    this.formData.images.length > 0 &&
                     this.formData.location
             }
         },
@@ -183,21 +183,25 @@
         position: relative;
         display: flex;
         justify-content: flex-start;
-        /* 左对齐 */
     }
 
     .back-btn {
         height: 80rpx;
-        width: 170rpx;
-        padding: 10rpx 30rpx;
+        width: 165rpx;
+        padding: 10rpx 22rpx 10rpx 14rpx;
         background: #4C74AF;
         color: #fff;
         border-radius: 38rpx;
         font-size: 30rpx;
         display: flex;
         align-items: center;
-        /* justify-content: center; */
         margin-left: 0;
+        box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.2), 0 2rpx 4rpx rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .back-btn:active {
+        box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.15);
     }
 
     .title {
@@ -215,11 +219,11 @@
     }
 
     .form-section {
-        margin-bottom: 40rpx;
+        margin-bottom: 35rpx;
         background: #fff;
         padding: 25rpx;
-        border-radius: 15rpx;
-        box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+        border-radius: 20rpx;
+        box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
     }
 
     .section-title {

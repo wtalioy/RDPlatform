@@ -5,6 +5,7 @@
                 @tap="switchTab(index)">
                 {{ item }}
             </view>
+            <view class="tab-indicator" :style="{ left: indicatorPosition }"></view>
         </view>
 
         <!-- 貉情地图模块 -->
@@ -65,14 +66,23 @@
                 showCollectionForm: false,
                 userContributions: 0,
                 requiredContributions: 10,
-                hasUnlockedReward: false
+                hasUnlockedReward: false,
+                tabWidth: 0
             }
         },
         computed: {
             progressWidth() {
                 const progress = Math.min(this.userContributions / this.requiredContributions * 100, 100)
                 return progress + '%'
+            },
+            indicatorPosition() {
+                // 计算蓝条的位置
+                return `calc(${this.currentTab * (100 / this.tabs.length)}% + ${50 / this.tabs.length}%)`
             }
+        },
+        mounted() {
+            // 初始化时计算 tab 宽度
+            this.calculateTabWidth()
         },
         methods: {
             switchTab(index) {
@@ -94,6 +104,11 @@
                 const result = await getUserContributions()
                 this.userContributions = result.count
                 this.hasUnlockedReward = result.hasUnlockedReward
+            },
+            calculateTabWidth() {
+                // 获取tabs容器宽度并均分
+                const tabsWidth = uni.getSystemInfoSync().windowWidth
+                this.tabWidth = tabsWidth / this.tabs.length
             }
         }
     }
@@ -109,10 +124,11 @@
     .tabs {
         display: flex;
         justify-content: space-around;
-        padding: 20rpx 0;
+        padding: 10rpx 0;
         background-color: #ffffff;
         box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
         z-index: 10;
+        position: relative;
     }
 
     .tab {
@@ -127,16 +143,16 @@
         font-weight: bold;
     }
 
-    .tab.active::after {
-        content: '';
+    /* 移除原有的after伪元素 */
+    .tab-indicator {
         position: absolute;
         bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
         width: 60rpx;
         height: 6rpx;
         background-color: #4C74AF;
         border-radius: 3rpx;
+        transform: translateX(-50%);
+        transition: left 0.3s ease-in-out;
     }
 
     .map-container {
