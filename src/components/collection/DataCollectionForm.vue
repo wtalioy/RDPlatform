@@ -186,22 +186,26 @@
     }
 
     .back-btn {
-        height: 80rpx;
-        width: 165rpx;
-        padding: 10rpx 22rpx 10rpx 14rpx;
+        height: 70rpx;
+        width: 140rpx;
+        padding: 10rpx 22rpx 10rpx 2rpx;
         background: #4C74AF;
         color: #fff;
         border-radius: 38rpx;
-        font-size: 30rpx;
+        font-size: 28rpx;
         display: flex;
         align-items: center;
         margin-left: 0;
-        box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.2), 0 2rpx 4rpx rgba(0, 0, 0, 0.1);
-        transition: box-shadow 0.3s ease;
+        box-shadow: 0 4rpx 12rpx rgba(76, 116, 175, 0.3),
+            0 2rpx 6rpx rgba(76, 116, 175, 0.2),
+            0 8rpx 16rpx rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease;
     }
 
     .back-btn:active {
-        box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.15);
+        transform: translateY(2rpx);
+        box-shadow: 0 2rpx 6rpx rgba(76, 116, 175, 0.2),
+            0 1rpx 3rpx rgba(76, 116, 175, 0.1);
     }
 
     .title {
@@ -236,7 +240,7 @@
 
     .story-input {
         width: 100%;
-        height: 200rpx;
+        height: 300rpx;
         margin-top: 35rpx;
         padding: 20rpx;
         box-sizing: border-box;
@@ -325,6 +329,16 @@
         border-radius: 35rpx;
         font-size: 26rpx;
         line-height: 1.6;
+        box-shadow: 0 4rpx 12rpx rgba(76, 116, 175, 0.3),
+            0 2rpx 6rpx rgba(76, 116, 175, 0.2),
+            0 8rpx 16rpx rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease;
+    }
+
+    .location-btn:active {
+        transform: translateY(2rpx);
+        box-shadow: 0 2rpx 6rpx rgba(76, 116, 175, 0.2),
+            0 1rpx 3rpx rgba(76, 116, 175, 0.1);
     }
 
     .submit-btn {
@@ -339,9 +353,22 @@
         align-items: center;
         justify-content: center;
         margin: 60rpx auto;
+        box-shadow: 0 6rpx 16rpx rgba(76, 116, 175, 0.4),
+            0 3rpx 8rpx rgba(76, 116, 175, 0.2),
+            0 10rpx 20rpx rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+    }
+
+    .submit-btn:active {
+        transform: translateY(3rpx);
+        box-shadow: 0 3rpx 8rpx rgba(76, 116, 175, 0.25),
+            0 1rpx 4rpx rgba(76, 116, 175, 0.15);
     }
 
     .submit-btn[disabled] {
         background: #cccccc8e;
+        border: 2rpx solid #ccc;
+        box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+        opacity: 0.8;
     }
 </style>
