@@ -92,7 +92,7 @@
 </template>
 
 <script>
-    import { getAdoptionRaccoons, initAdoptionRaccoons } from '@/api/raccoonApi'
+    import { getAdoptionRaccoons } from '@/api/raccoonApi'
 
     export default {
         name: 'AdoptionModule',

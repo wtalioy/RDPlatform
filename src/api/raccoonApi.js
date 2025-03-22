@@ -77,20 +77,6 @@ export const getUserContributions = async () => {
 }
 
 // 认养相关API
-export const initAdoptionRaccoons = async (clear = false) => {
-    try {
-        const { result } = await wx.cloud.callFunction({
-            name: 'initAdoptionRaccoons',
-            data: { clear }
-        })
-        return result
-    } catch (error) {
-        console.error('初始化认养貉数据失败：', error)
-        handleError(error)
-        return { success: false, error: error.message }
-    }
-}
-
 export const getAdoptionRaccoons = async (onlyAvailable = false, page = 1, pageSize = 10) => {
     try {
         const { result } = await wx.cloud.callFunction({
