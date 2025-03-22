@@ -1,34 +1,38 @@
 <template>
-    <view class="raccoon-detail">
+    <view class="raccoon-detail gradient-bg">
         <view v-if="loading" class="loading">
             <text>加载中...</text>
         </view>
         <view v-else-if="raccoonInfo">
-            <view class="raccoon-header">
+            <view class="raccoon-header common-card">
                 <image class="raccoon-avatar" :src="raccoonInfo.avatar" mode="aspectFill" />
                 <view class="raccoon-info">
                     <text class="raccoon-name">{{ raccoonInfo.name }}</text>
                     <text class="raccoon-location">所在区域：{{ raccoonInfo.district }}</text>
+                    <view class="tag-container">
+                        <text class="common-tag">{{ raccoonInfo.gender === 'male' ? '♂' : '♀' }}</text>
+                        <text class="common-tag">{{ raccoonInfo.age }}岁</text>
+                    </view>
                 </view>
             </view>
 
-            <view class="section character">
-                <view class="section-title">性格特征</view>
+            <view class="section character common-card">
+                <text class="section-title">性格特征</text>
                 <text class="section-content">{{ raccoonInfo.character }}</text>
             </view>
 
-            <view class="section social">
-                <view class="section-title">社会关系</view>
+            <view class="section social common-card">
+                <text class="section-title">社会关系</text>
                 <text class="section-content">{{ raccoonInfo.socialRelations }}</text>
             </view>
 
-            <view class="section story">
-                <view class="section-title">貉的故事</view>
+            <view class="section story common-card">
+                <text class="section-title">貉的故事</text>
                 <text class="section-content">{{ raccoonInfo.story }}</text>
             </view>
 
-            <view class="gallery">
-                <view class="section-title">活动照片</view>
+            <view class="gallery common-card">
+                <text class="section-title">活动照片</text>
                 <scroll-view class="gallery-scroll" scroll-x>
                     <view class="gallery-item" v-for="(photo, index) in raccoonInfo.photos" :key="index">
                         <image :src="photo" mode="aspectFill" @tap="previewImage(photo)" />
@@ -36,9 +40,9 @@
                 </scroll-view>
             </view>
 
-            <button class="back-button" @tap="goBack">返回地图</button>
+            <button class="adoption-button" @tap="goBack">返回地图</button>
         </view>
-        <view v-else class="error">
+        <view v-else class="error common-card">
             <text>未找到该貉的信息</text>
         </view>
     </view>
@@ -100,14 +104,16 @@
 </script>
 
 <style>
+    @import '@/static/css/adoption/adoption-common.css';
+
     .raccoon-detail {
+        min-height: 100vh;
         padding: 30rpx;
     }
 
     .raccoon-header {
         display: flex;
         align-items: center;
-        margin-bottom: 40rpx;
     }
 
     .raccoon-avatar {
@@ -115,6 +121,7 @@
         height: 150rpx;
         border-radius: 75rpx;
         margin-right: 30rpx;
+        border: 4rpx solid rgba(74, 123, 90, 0.2);
     }
 
     .raccoon-info {
@@ -124,6 +131,7 @@
     .raccoon-name {
         font-size: 40rpx;
         font-weight: bold;
+        color: #333;
         margin-bottom: 10rpx;
         display: block;
     }
@@ -132,32 +140,18 @@
         font-size: 28rpx;
         color: #666;
         display: block;
+        margin-bottom: 16rpx;
     }
 
-    .section {
-        margin-bottom: 30rpx;
-        background-color: #f9f9f9;
-        padding: 20rpx;
-        border-radius: 10rpx;
-    }
-
-    .section-title {
-        font-size: 32rpx;
-        font-weight: bold;
-        margin-bottom: 15rpx;
-        color: #333;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 10rpx;
+    .tag-container {
+        display: flex;
+        flex-wrap: wrap;
     }
 
     .section-content {
         font-size: 28rpx;
         line-height: 1.6;
         color: #555;
-    }
-
-    .gallery {
-        margin-bottom: 40rpx;
     }
 
     .gallery-scroll {
@@ -173,15 +167,8 @@
     .gallery-item image {
         width: 200rpx;
         height: 200rpx;
-        border-radius: 8rpx;
-    }
-
-    .back-button {
-        background-color: #4CAF50;
-        color: white;
-        border-radius: 40rpx;
-        font-size: 32rpx;
-        padding: 15rpx 0;
+        border-radius: 16rpx;
+        box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
     }
 
     .loading,
@@ -190,4 +177,5 @@
         text-align: center;
         color: #666;
     }
+
 </style>

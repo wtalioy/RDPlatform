@@ -302,28 +302,6 @@
     padding-bottom: 20rpx;
 }
 
-.adoption-button {
-    background: linear-gradient(135deg, #4A7B5A 0%, #3d6a4c 100%);
-    color: #fff;
-    border-radius: 60rpx;
-    padding: 20rpx 0;
-    font-size: 32rpx;
-    font-weight: bold;
-    margin-top: 50rpx;
-    box-shadow: 0 6rpx 16rpx rgba(74, 123, 90, 0.4),
-        0 3rpx 8rpx rgba(74, 123, 90, 0.2),
-        0 10rpx 20rpx rgba(0, 0, 0, 0.1);
-    border: none;
-    letter-spacing: 2rpx;
-    transition: all 0.3s ease;
-}
-
-.adoption-button:active {
-    transform: translateY(4rpx);
-    box-shadow: 0 3rpx 8rpx rgba(74, 123, 90, 0.25),
-        0 1rpx 4rpx rgba(74, 123, 90, 0.15);
-}
-
 /* Emoji图标样式 */
 .benefit-highlight {
     font-size: 32rpx;
