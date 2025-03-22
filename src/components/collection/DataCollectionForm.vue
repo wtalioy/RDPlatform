@@ -173,46 +173,52 @@
     .data-collection {
         height: 100%;
         overflow-y: auto;
-        padding: 30rpx;
+        padding: 40rpx 30rpx;
         box-sizing: border-box;
-        background: #f8f8f8;
+        background: linear-gradient(160deg, #f8fcf7 0%, #eaf5f5 100%);
+        font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
 
     .header {
-        margin-bottom: 20rpx;
+        margin-bottom: 30rpx;
         position: relative;
         display: flex;
         justify-content: flex-start;
     }
 
     .back-btn {
-        height: 70rpx;
-        width: 140rpx;
-        padding: 10rpx 22rpx 10rpx 2rpx;
-        background: #4C74AF;
+        height: 76rpx;
+        width: 150rpx;
+        padding: 12rpx 22rpx 12rpx 2rpx;
+        background: linear-gradient(135deg, #4A7B5A 0%, #3d6a4c 100%);
         color: #fff;
         border-radius: 38rpx;
         font-size: 28rpx;
         display: flex;
         align-items: center;
         margin-left: 0;
-        box-shadow: 0 4rpx 12rpx rgba(76, 116, 175, 0.3),
-            0 2rpx 6rpx rgba(76, 116, 175, 0.2),
+        box-shadow: 0 4rpx 12rpx rgba(74, 123, 90, 0.3),
+            0 2rpx 6rpx rgba(74, 123, 90, 0.2),
             0 8rpx 16rpx rgba(0, 0, 0, 0.1);
         transition: all 0.2s ease;
     }
 
     .back-btn:active {
         transform: translateY(2rpx);
-        box-shadow: 0 2rpx 6rpx rgba(76, 116, 175, 0.2),
-            0 1rpx 3rpx rgba(76, 116, 175, 0.1);
+        box-shadow: 0 2rpx 6rpx rgba(74, 123, 90, 0.2),
+            0 1rpx 3rpx rgba(74, 123, 90, 0.1);
+    }
+
+    .back-btn text {
+        text-shadow: 0 1rpx 3rpx rgba(0, 0, 0, 0.2);
     }
 
     .title {
-        font-size: 36rpx;
+        font-size: 38rpx;
         font-weight: bold;
         color: #333;
         display: block;
+        text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.08);
     }
 
     .subtitle {
@@ -222,38 +228,70 @@
         display: block;
     }
 
+    .form-container {
+        padding: 10rpx;
+    }
+
     .form-section {
-        margin-bottom: 35rpx;
-        background: #fff;
-        padding: 25rpx;
-        border-radius: 20rpx;
-        box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+        margin-bottom: 40rpx;
+        background: rgba(255, 255, 255, 0.85);
+        padding: 30rpx;
+        border-radius: 24rpx;
+        box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+        border: 1rpx solid rgba(255, 255, 255, 0.7);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-section:hover {
+        transform: translateY(-2rpx);
+        box-shadow: 0 6rpx 22rpx rgba(0, 0, 0, 0.1);
     }
 
     .section-title {
-        font-size: 30rpx;
+        font-size: 32rpx;
         font-weight: bold;
-        color: #333;
-        margin: 10rpx 0 20rpx;
+        color: #3d6a4c;
+        margin: 10rpx 0 25rpx;
         display: block;
+        position: relative;
+        padding-left: 24rpx;
+    }
+
+    .section-title::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 8rpx;
+        height: 30rpx;
+        background: #4A7B5A;
+        border-radius: 4rpx;
     }
 
     .story-input {
         width: 100%;
         height: 300rpx;
         margin-top: 35rpx;
-        padding: 20rpx;
+        padding: 25rpx;
         box-sizing: border-box;
-        border: 1rpx solid #eee;
-        border-radius: 8rpx;
+        border: 1rpx solid #ddd;
+        border-radius: 16rpx;
         font-size: 28rpx;
+        background: rgba(255, 255, 255, 0.7);
+        transition: border 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .story-input:focus {
+        border: 1rpx solid #4A7B5A;
+        box-shadow: 0 0 0 3rpx rgba(74, 123, 90, 0.1);
     }
 
     .word-count {
         font-size: 24rpx;
-        color: #999;
+        color: #888;
         text-align: right;
-        margin-top: 10rpx;
+        margin-top: 12rpx;
         display: block;
     }
 
@@ -264,111 +302,168 @@
     .image-list {
         display: flex;
         flex-wrap: wrap;
-        gap: 20rpx;
+        gap: 25rpx;
     }
 
     .image-item {
         width: 200rpx;
         height: 200rpx;
         position: relative;
+        border-radius: 16rpx;
+        overflow: hidden;
+        box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.15);
+        transition: transform 0.2s ease;
+    }
+
+    .image-item:active {
+        transform: scale(0.97);
     }
 
     .image-item image {
         width: 100%;
         height: 100%;
-        border-radius: 8rpx;
+        border-radius: 16rpx;
     }
 
     .delete-btn {
         position: absolute;
-        top: -20rpx;
-        right: -20rpx;
-        width: 40rpx;
-        height: 40rpx;
-        background: rgba(0, 0, 0, 0.5);
+        top: -15rpx;
+        right: -15rpx;
+        width: 44rpx;
+        height: 44rpx;
+        background: rgba(220, 53, 69, 0.9);
         color: #fff;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 24rpx;
+        font-size: 28rpx;
+        box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.2);
+        z-index: 2;
     }
 
     .upload-btn {
         width: 200rpx;
         height: 200rpx;
-        border: 2rpx dashed #ddd;
-        border-radius: 8rpx;
+        border: 2rpx dashed #aaa;
+        border-radius: 16rpx;
         display: flex;
         align-items: center;
         justify-content: center;
+        background: rgba(255, 255, 255, 0.5);
+        transition: all 0.3s ease;
+    }
+
+    .upload-btn:active {
+        background: rgba(74, 123, 90, 0.1);
+        border-color: #4A7B5A;
     }
 
     .plus {
-        font-size: 60rpx;
-        color: #999;
+        font-size: 70rpx;
+        color: #4A7B5A;
+        line-height: 1;
     }
 
     .location-section {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        margin-top: 10rpx;
+        padding: 15rpx 10rpx;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 12rpx;
     }
 
     .location-text {
         font-size: 28rpx;
-        color: #666;
+        color: #555;
         flex: 1;
         margin-right: 20rpx;
     }
 
     .location-btn {
-        padding: 10rpx 30rpx;
-        background: #4C74AF;
+        padding: 12rpx 32rpx;
+        background: linear-gradient(135deg, #A67C52 0%, #8a6343 100%);
         color: #fff;
         border-radius: 35rpx;
         font-size: 26rpx;
         line-height: 1.6;
-        box-shadow: 0 4rpx 12rpx rgba(76, 116, 175, 0.3),
-            0 2rpx 6rpx rgba(76, 116, 175, 0.2),
+        box-shadow: 0 4rpx 12rpx rgba(166, 124, 82, 0.3),
+            0 2rpx 6rpx rgba(166, 124, 82, 0.2),
             0 8rpx 16rpx rgba(0, 0, 0, 0.1);
         transition: all 0.2s ease;
     }
 
     .location-btn:active {
         transform: translateY(2rpx);
-        box-shadow: 0 2rpx 6rpx rgba(76, 116, 175, 0.2),
-            0 1rpx 3rpx rgba(76, 116, 175, 0.1);
+        box-shadow: 0 2rpx 6rpx rgba(166, 124, 82, 0.2),
+            0 1rpx 3rpx rgba(166, 124, 82, 0.1);
     }
 
     .submit-btn {
         width: 80%;
-        height: 80rpx;
-        background: #4C74AF;
+        height: 90rpx;
+        background: linear-gradient(135deg, #F39C12 0%, #e67e22 100%);
         color: #fff;
-        border-radius: 35rpx;
-        font-size: 32rpx;
+        border-radius: 45rpx;
+        font-size: 34rpx;
         font-weight: bold;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 60rpx auto;
-        box-shadow: 0 6rpx 16rpx rgba(76, 116, 175, 0.4),
-            0 3rpx 8rpx rgba(76, 116, 175, 0.2),
-            0 10rpx 20rpx rgba(0, 0, 0, 0.15);
+        margin: 70rpx auto 40rpx;
+        box-shadow: 0 6rpx 16rpx rgba(243, 156, 18, 0.4),
+            0 3rpx 8rpx rgba(243, 156, 18, 0.2),
+            0 10rpx 20rpx rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease;
+        letter-spacing: 4rpx;
     }
 
     .submit-btn:active {
-        transform: translateY(3rpx);
-        box-shadow: 0 3rpx 8rpx rgba(76, 116, 175, 0.25),
-            0 1rpx 4rpx rgba(76, 116, 175, 0.15);
+        transform: translateY(4rpx);
+        box-shadow: 0 3rpx 8rpx rgba(243, 156, 18, 0.25),
+            0 1rpx 4rpx rgba(243, 156, 18, 0.15);
     }
 
     .submit-btn[disabled] {
-        background: #cccccc8e;
-        border: 2rpx solid #ccc;
+        background: linear-gradient(135deg, #cccccc 0%, #bbbbbb 100%);
+        border: 1rpx solid #ddd;
         box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
         opacity: 0.8;
+    }
+
+    /* 添加动画效果 */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10rpx);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-section {
+        animation: fadeIn 0.5s ease forwards;
+    }
+
+    .form-section:nth-child(1) {
+        animation-delay: 0.2s;
+    }
+
+    .form-section:nth-child(2) {
+        animation-delay: 0.4s;
+    }
+
+    .form-section:nth-child(3) {
+        animation-delay: 0.6s;
+    }
+
+    .submit-btn {
+        animation: fadeIn 0.5s ease forwards;
+        animation-delay: 0.8s;
     }
 </style>

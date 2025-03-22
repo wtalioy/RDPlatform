@@ -1,0 +1,82 @@
+/* 主页面基本布局样式 */
+.content {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.map-container {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 100rpx);
+}
+
+.stats-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 40rpx;
+}
+
+.stats-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20rpx;
+}
+
+.stats-title {
+    font-size: 36rpx;
+    font-weight: bold;
+    color: #333;
+}
+
+.stats-total {
+    font-size: 28rpx;
+    color: #666;
+}
+
+.district-list {
+    flex: 1;
+}
+
+.district-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20rpx 0;
+    border-bottom: 1rpx solid #eee;
+}
+
+.district-name {
+    font-size: 30rpx;
+    color: #333;
+}
+
+.district-count {
+    font-size: 28rpx;
+    color: #666;
+}
+
+.module-card {
+    background: #ffffff;
+    border-radius: 12rpx;
+    padding: 30rpx;
+    margin: 30rpx;
+    box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.module-title {
+    font-size: 36rpx;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20rpx;
+    display: block;
+}
+
+.module-desc {
+    font-size: 28rpx;
+    color: #666;
+    line-height: 1.5;
+}

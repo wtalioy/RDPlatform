@@ -1,0 +1,35 @@
+/* 标签导航样式 */
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    padding: 15rpx 0;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2rpx 15rpx rgba(0, 0, 0, 0.08);
+    z-index: 10;
+    position: relative;
+    border-bottom: 1rpx solid rgba(0, 0, 0, 0.05);
+}
+
+.tab {
+    font-size: 30rpx;
+    color: #555;
+    padding: 15rpx 30rpx;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.tab.active {
+    color: #4A7B5A;
+    font-weight: bold;
+}
+
+.tab-indicator {
+    position: absolute;
+    bottom: 0;
+    width: 60rpx;
+    height: 6rpx;
+    background-color: #4A7B5A;
+    border-radius: 3rpx;
+    transform: translateX(-50%);
+    transition: left 0.3s ease-in-out;
+}
