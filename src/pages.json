@@ -11,6 +11,20 @@
             "style": {
                 "navigationBarTitleText": "貉详情"
             }
+        },
+        {
+            "path": "pages/adoption/AdoptionGuide",
+            "style": {
+                "navigationBarTitleText": "认养详情",
+                "enablePullDownRefresh": true
+            }
+        },
+        {
+            "path": "pages/adoption/RaccoonDetail",
+            "style": {
+                "navigationBarTitleText": "貉详情",
+                "enablePullDownRefresh": true
+            }
         }
     ],
     "globalStyle": {

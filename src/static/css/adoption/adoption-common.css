@@ -1,0 +1,53 @@
+/* 认养功能公共样式 */
+
+/* 基础渐变背景 */
+.gradient-bg {
+    background: linear-gradient(160deg, #f8fcf7 0%, #eaf5f5 100%);
+}
+
+/* 卡片通用样式 */
+.common-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 24rpx;
+    padding: 30rpx;
+    margin-bottom: 30rpx;
+    box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.08);
+    border: 1rpx solid rgba(255, 255, 255, 0.8);
+}
+
+/* 通用标题样式 */
+.section-title {
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #3d6a4c;
+    margin-bottom: 20rpx;
+    display: block;
+}
+
+/* 通用按钮样式 */
+.primary-button {
+    background: linear-gradient(135deg, #4A7B5A 0%, #3d6a4c 100%);
+    color: #fff;
+    border-radius: 40rpx;
+    padding: 20rpx 0;
+    font-size: 32rpx;
+    font-weight: bold;
+    box-shadow: 0 6rpx 20rpx rgba(74, 123, 90, 0.3);
+    border: none;
+}
+
+.primary-button:active {
+    transform: translateY(2rpx);
+    box-shadow: 0 3rpx 10rpx rgba(74, 123, 90, 0.2);
+}
+
+/* 标签样式 */
+.common-tag {
+    font-size: 24rpx;
+    color: #4A7B5A;
+    background: rgba(74, 123, 90, 0.1);
+    padding: 6rpx 16rpx;
+    border-radius: 20rpx;
+    margin-right: 16rpx;
+    margin-bottom: 10rpx;
+}
