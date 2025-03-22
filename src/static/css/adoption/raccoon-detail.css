@@ -8,36 +8,6 @@
     box-sizing: border-box;
 }
 
-.header {
-    margin-bottom: 30rpx;
-    position: relative;
-    display: flex;
-    justify-content: flex-start;
-}
-
-.back-btn {
-    height: 76rpx;
-    width: 150rpx;
-    padding: 12rpx 22rpx 12rpx 2rpx;
-    background: linear-gradient(135deg, #4A7B5A 0%, #3d6a4c 100%);
-    color: #fff;
-    border-radius: 38rpx;
-    font-size: 28rpx;
-    display: flex;
-    align-items: center;
-    margin-left: 0;
-    box-shadow: 0 4rpx 12rpx rgba(74, 123, 90, 0.3),
-        0 2rpx 6rpx rgba(74, 123, 90, 0.2),
-        0 8rpx 16rpx rgba(0, 0, 0, 0.1);
-    transition: all 0.2s ease;
-}
-
-.back-btn:active {
-    transform: translateY(2rpx);
-    box-shadow: 0 2rpx 6rpx rgba(74, 123, 90, 0.2),
-        0 1rpx 3rpx rgba(74, 123, 90, 0.1);
-}
-
 .raccoon-profile {
     display: flex;
     background: rgba(255, 255, 255, 0.9);

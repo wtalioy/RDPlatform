@@ -1,11 +1,5 @@
 <template>
     <view class="raccoon-detail">
-        <view class="header">
-            <button class="back-btn" @tap="goBack">
-                <text class="iconfont icon-back"></text>
-                <text>返回</text>
-            </button>
-        </view>
 
         <view class="raccoon-profile">
             <image :src="raccoon.avatar" mode="aspectFill" class="profile-avatar"></image>
@@ -30,7 +24,6 @@
             <text class="section-title">健康状况</text>
             <view class="health-info">
                 <text class="health-status">{{ raccoon.health }}</text>
-                <text class="health-description">研究人员定期对{{ raccoon.name }}进行健康检查，目前状态良好。</text>
             </view>
         </view>
 
@@ -45,7 +38,7 @@
         </view>
 
         <view class="detail-section">
-            <text class="section-title">貉的自拍照</text>
+            <text class="section-title">ta的自拍照</text>
             <scroll-view class="photos-scroll" scroll-x="true" show-scrollbar="false">
                 <view class="photos-container">
                     <view v-for="(photo, index) in raccoon.photos" :key="index" class="photo-item"
@@ -63,9 +56,12 @@
 </template>
 
 <script>
+    import { getAdoptionRaccoonDetail, updateAdoptionStatus } from '@/api/raccoonApi'
+
     export default {
         data() {
             return {
+                raccoonId: 0,
                 raccoon: {
                     id: 0,
                     name: '',
@@ -77,31 +73,83 @@
                     health: '',
                     activities: [],
                     photos: []
+                },
+                loading: false
+            }
+        },
+        onLoad(options) {
+            if (options.id) {
+                this.raccoonId = Number(options.id)
+                this.fetchRaccoonDetail()
+            } else {
+                // 从缓存获取选中的貉数据作为备选
+                const selectedRaccoon = uni.getStorageSync('selectedRaccoon')
+                if (selectedRaccoon) {
+                    this.raccoon = selectedRaccoon
+                    this.raccoonId = selectedRaccoon.id
+                    // 仍然尝试获取最新数据以确保数据是最新的
+                    this.fetchRaccoonDetail()
                 }
             }
         },
-        onLoad() {
-            // 从缓存获取选中的貉数据
-            const selectedRaccoon = uni.getStorageSync('selectedRaccoon');
-            if (selectedRaccoon) {
-                this.raccoon = selectedRaccoon;
-            }
-        },
         methods: {
+            async fetchRaccoonDetail() {
+                if (!this.raccoonId) return
+
+                try {
+                    this.loading = true
+                    const data = await getAdoptionRaccoonDetail(this.raccoonId)
+
+                    if (data) {
+                        this.raccoon = data
+                        // 更新缓存，保证数据一致性
+                        uni.setStorageSync('selectedRaccoon', data)
+                    }
+                } catch (error) {
+                    console.error('获取貉详情失败：', error)
+                    uni.showToast({
+                        title: '获取详情失败',
+                        icon: 'none'
+                    })
+                } finally {
+                    this.loading = false
+                }
+            },
             goBack() {
-                uni.navigateBack();
+                uni.navigateBack()
             },
             previewPhotos(index) {
                 uni.previewImage({
                     current: this.raccoon.photos[index],
                     urls: this.raccoon.photos
-                });
+                })
             },
-            startAdoption() {
+            async startAdoption() {
                 // 跳转到认养流程页面
                 uni.navigateTo({
                     url: `/pages/adoption/AdoptionProcess?id=${this.raccoon.id}`
-                });
+                })
+            },
+            // 新增方法：完成认养
+            async completeAdoption(adoptionInfo) {
+                try {
+                    const result = await updateAdoptionStatus(this.raccoon.id, true, adoptionInfo)
+
+                    if (result && result.success) {
+                        // 更新本地数据
+                        this.raccoon.isAdopted = true
+                        this.raccoon.adoptionInfo = adoptionInfo
+
+                        // 更新缓存
+                        uni.setStorageSync('selectedRaccoon', this.raccoon)
+
+                        return true
+                    }
+                    return false
+                } catch (error) {
+                    console.error('完成认养失败：', error)
+                    return false
+                }
             }
         }
     }

@@ -188,8 +188,8 @@
 
     .back-btn {
         height: 76rpx;
-        width: 150rpx;
-        padding: 12rpx 22rpx 12rpx 2rpx;
+        width: 140rpx;
+        padding: 12rpx 22rpx 12rpx 0rpx;
         background: linear-gradient(135deg, #4A7B5A 0%, #3d6a4c 100%);
         color: #fff;
         border-radius: 38rpx;

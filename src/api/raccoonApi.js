@@ -76,6 +76,69 @@ export const getUserContributions = async () => {
     }
 }
 
+// 认养相关API
+export const initAdoptionRaccoons = async (clear = false) => {
+    try {
+        const { result } = await wx.cloud.callFunction({
+            name: 'initAdoptionRaccoons',
+            data: { clear }
+        })
+        return result
+    } catch (error) {
+        console.error('初始化认养貉数据失败：', error)
+        handleError(error)
+        return { success: false, error: error.message }
+    }
+}
+
+export const getAdoptionRaccoons = async (onlyAvailable = false, page = 1, pageSize = 10) => {
+    try {
+        const { result } = await wx.cloud.callFunction({
+            name: 'getAdoptionRaccoons',
+            data: { onlyAvailable, page, pageSize }
+        })
+        return result.success ? result.data : { list: [], total: 0 }
+    } catch (error) {
+        console.error('获取认养貉列表失败：', error)
+        handleError(error)
+        return { list: [], total: 0 }
+    }
+}
+
+export const getAdoptionRaccoonDetail = async (id) => {
+    try {
+        const { result } = await wx.cloud.callFunction({
+            name: 'getAdoptionRaccoonDetail',
+            data: { id }
+        })
+        return result.success ? result.data : null
+    } catch (error) {
+        console.error('获取认养貉详情失败：', error)
+        handleError(error)
+        return null
+    }
+}
+
+export const updateAdoptionStatus = async (id, isAdopted, adoptionInfo = null) => {
+    try {
+        const { result } = await wx.cloud.callFunction({
+            name: 'updateAdoptionStatus',
+            data: { id, isAdopted, adoptionInfo }
+        })
+        if (result.success) {
+            uni.showToast({
+                title: result.message || '操作成功',
+                icon: 'success'
+            })
+        }
+        return result
+    } catch (error) {
+        console.error('更新认养状态失败：', error)
+        handleError(error)
+        return { success: false, error: error.message }
+    }
+}
+
 // 统一错误处理
 const handleError = (error) => {
     console.error(error)
