@@ -50,7 +50,7 @@
         </view>
 
         <view v-if="!raccoon.isAdopted" class="adoption-action">
-            <button class="adopt-button" @tap="startAdoption">认养{{ raccoon.name }}</button>
+            <button class="adoption-button" @tap="startAdoption">认养{{ raccoon.name }}</button>
         </view>
     </view>
 </template>

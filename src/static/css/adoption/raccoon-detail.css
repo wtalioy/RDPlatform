@@ -160,19 +160,3 @@
 .adoption-action {
     padding: 30rpx 0;
 }
-
-.adopt-button {
-    background: linear-gradient(135deg, #4A7B5A 0%, #3d6a4c 100%);
-    color: #fff;
-    border-radius: 40rpx;
-    padding: 24rpx 0;
-    font-size: 32rpx;
-    font-weight: bold;
-    box-shadow: 0 6rpx 20rpx rgba(74, 123, 90, 0.3);
-    border: none;
-}
-
-.adopt-button:active {
-    transform: translateY(2rpx);
-    box-shadow: 0 3rpx 10rpx rgba(74, 123, 90, 0.2);
-}
