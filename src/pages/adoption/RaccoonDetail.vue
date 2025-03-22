@@ -81,15 +81,6 @@
             if (options.id) {
                 this.raccoonId = Number(options.id)
                 this.fetchRaccoonDetail()
-            } else {
-                // 从缓存获取选中的貉数据作为备选
-                const selectedRaccoon = uni.getStorageSync('selectedRaccoon')
-                if (selectedRaccoon) {
-                    this.raccoon = selectedRaccoon
-                    this.raccoonId = selectedRaccoon.id
-                    // 仍然尝试获取最新数据以确保数据是最新的
-                    this.fetchRaccoonDetail()
-                }
             }
         },
         methods: {
@@ -102,8 +93,6 @@
 
                     if (data) {
                         this.raccoon = data
-                        // 更新缓存，保证数据一致性
-                        uni.setStorageSync('selectedRaccoon', data)
                     }
                 } catch (error) {
                     console.error('获取貉详情失败：', error)
@@ -139,10 +128,6 @@
                         // 更新本地数据
                         this.raccoon.isAdopted = true
                         this.raccoon.adoptionInfo = adoptionInfo
-
-                        // 更新缓存
-                        uni.setStorageSync('selectedRaccoon', this.raccoon)
-
                         return true
                     }
                     return false

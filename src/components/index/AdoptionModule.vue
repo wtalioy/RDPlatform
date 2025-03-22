@@ -35,7 +35,21 @@
         <view class="raccoon-dog-list">
             <text class="section-title">选择您想认养的貉</text>
             <scroll-view class="raccoon-scroll" scroll-x="true" show-scrollbar="false">
-                <view class="raccoon-cards">
+                <!-- 骨架屏 -->
+                <view v-if="loading" class="raccoon-cards">
+                    <view v-for="i in 3" :key="i" class="raccoon-card skeleton">
+                        <view class="skeleton-avatar"></view>
+                        <view class="skeleton-info">
+                            <view class="skeleton-name"></view>
+                            <view class="skeleton-tags">
+                                <view class="skeleton-tag"></view>
+                                <view class="skeleton-tag"></view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <!-- 实际列表 -->
+                <view v-else class="raccoon-cards">
                     <view v-for="(raccoon, index) in raccoonDogs" :key="index" class="raccoon-card"
                         @tap="showRaccoonDetail(raccoon)">
                         <image :src="raccoon.avatar" mode="aspectFill" class="raccoon-avatar"></image>
@@ -85,12 +99,12 @@
         data() {
             return {
                 raccoonDogs: [],
-                loading: false,
+                loading: true,
                 initialized: false
             }
         },
-        created() {
-            this.fetchRaccoonDogs()
+        async mounted() {
+            await this.fetchRaccoonDogs()
         },
         methods: {
             async fetchRaccoonDogs() {
@@ -129,8 +143,6 @@
                 }
             },
             showRaccoonDetail(raccoon) {
-                // 存储选中的貉数据
-                uni.setStorageSync('selectedRaccoon', raccoon);
                 uni.navigateTo({
                     url: '/pages/adoption/RaccoonDetail?id=' + raccoon.id
                 });

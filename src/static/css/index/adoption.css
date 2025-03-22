@@ -183,7 +183,7 @@
 }
 
 .raccoon-card {
-    width: 560rpx;
+    width: 460rpx;
     background: rgba(255, 255, 255, 0.95);
     border-radius: 20rpx;
     margin-right: 20rpx;
@@ -331,4 +331,56 @@
     display: inline-block;
     vertical-align: middle;
     transform: translateY(-2rpx);
+}
+
+/* 骨架屏样式 */
+.skeleton {
+    background: #fff !important;
+}
+
+.skeleton-avatar {
+    width: 200rpx;
+    height: 120rpx;
+    background: linear-gradient(90deg, #f2f2f2 25%, #e6e6e6 50%, #f2f2f2 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 16rpx;
+}
+
+.skeleton-info {
+    padding: 16rpx;
+}
+
+.skeleton-name {
+    width: 120rpx;
+    height: 32rpx;
+    background: linear-gradient(90deg, #f2f2f2 25%, #e6e6e6 50%, #f2f2f2 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    margin-bottom: 12rpx;
+    border-radius: 4rpx;
+}
+
+.skeleton-tags {
+    display: flex;
+    gap: 8rpx;
+}
+
+.skeleton-tag {
+    width: 60rpx;
+    height: 24rpx;
+    background: linear-gradient(90deg, #f2f2f2 25%, #e6e6e6 50%, #f2f2f2 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4rpx;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
 }
