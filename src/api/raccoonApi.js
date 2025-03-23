@@ -4,10 +4,10 @@ export const getRaccoons = async () => {
         const { result } = await wx.cloud.callFunction({
             name: 'getRaccoons'
         })
-        return result.success ? result.data : { list: [], total: 0 }
+        return result.success ? result.data : { list: [] }
     } catch (error) {
         console.error('获取貉失败：', error)
-        return { list: [], total: 0 }
+        return { list: [] }
     }
 }
 

@@ -77,22 +77,26 @@
             },
             async loadData() {
                 const result = await getRaccoons()
-                if (result.list) {
-                    this.markers = result.list.map(raccoon => ({
+                if (result) {
+                    this.markers = result.map(raccoon => ({
                         id: raccoon.id,
                         latitude: raccoon.latitude,
                         longitude: raccoon.longitude,
                         iconPath: raccoon.avatar,
-                        width: 40,
-                        height: 40,
+                        width: 50,
+                        height: 50,
                         callout: {
                             content: raccoon.name,
-                            color: '#000000',
-                            fontSize: 14,
-                            borderRadius: 4,
-                            bgColor: '#ffffff',
-                            padding: 5,
-                            display: 'ALWAYS'
+                            color: '#333333',
+                            fontSize: 13,
+                            borderRadius: 15,
+                            bgColor: 'rgba(255, 255, 255, 0.95)',
+                            padding: 8,
+                            display: 'ALWAYS',
+                            borderWidth: 1,
+                            borderColor: '#E0E0E0',
+                            textAlign: 'center',
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                         }
                     }))
                 }
