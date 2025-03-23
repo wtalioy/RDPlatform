@@ -1,67 +1,65 @@
-const cloud = require('wx-server-sdk')
+const cloud = require("@cloudbase/node-sdk");
+const wxContext = require("wx-server-sdk").getWXContext();
 
-cloud.init({
-    env: cloud.DYNAMIC_CURRENT_ENV
-})
+const app = cloud.init({
+    env: cloud.DYNAMIC_CURRENT_ENV,
+});
 
-const db = cloud.database()
+const models = app.models;
 
 exports.main = async (event, context) => {
-    try {
-        const wxContext = cloud.getWXContext()
-        const { story, images, location, timestamp } = event
+    const { story, images, location } = event;
 
-        // 保存数据到数据库
-        const result = await db.collection('wildlife_data').add({
+    // 保存野生动物数据
+    const { data: wildlifeData } = await models.wildlife_data.create({
+        data: {
+            openid: wxContext.OPENID,
+            story: story,
+            images: images,
+            location: location,
+        }
+    });
+
+    // 获取用户贡献记录
+    const { data: userContrib } = await models.user_contributions.get({
+        filter: {
+            where: {
+                openid: {
+                    $eq: wxContext.OPENID
+                }
+            }
+        }
+    });
+
+    if (!userContrib) {
+        // 创建新用户贡献记录
+        await models.user_contributions.create({
             data: {
                 openid: wxContext.OPENID,
-                story,
-                images,
-                location,
-                timestamp,
-                createdAt: db.serverDate()
+                count: 1,
+                hasUnlockedReward: false,
             }
-        })
-
-        // 更新用户贡献计数
-        const userContrib = await db.collection('user_contributions').where({
-            openid: wxContext.OPENID
-        }).get()
-
-        if (userContrib.data.length === 0) {
-            // 创建新用户贡献记录
-            await db.collection('user_contributions').add({
-                data: {
-                    openid: wxContext.OPENID,
-                    count: 1,
-                    hasUnlockedReward: false,
-                    createdAt: db.serverDate(),
-                    updatedAt: db.serverDate()
+        });
+    } else {
+        // 更新现有记录
+        const newCount = Number(userContrib.count) + 1;
+        await models.user_contributions.update({
+            filter: {
+                where: {
+                    openid: {
+                        $eq: wxContext.OPENID
+                    }
                 }
-            })
-        } else {
-            // 更新现有记录
-            const newCount = userContrib.data[0].count + 1
-            await db.collection('user_contributions').where({
-                openid: wxContext.OPENID
-            }).update({
-                data: {
-                    count: newCount,
-                    hasUnlockedReward: newCount >= 10,
-                    updatedAt: db.serverDate()
-                }
-            })
-        }
-
-        return {
-            success: true,
-            data: result
-        }
-    } catch (err) {
-        console.error('提交数据失败：', err)
-        return {
-            success: false,
-            error: err
-        }
+            },
+            data: {
+                count: newCount,
+                hasUnlockedReward: newCount >= 10,
+            }
+        });
     }
+
+    return {
+        success: true,
+        data: wildlifeData
+    };
 }

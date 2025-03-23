@@ -34,7 +34,7 @@
 </template>
 
 <script>
-    import { getRaccoonList, getDistrictStats } from '@/api/raccoonApi.js'
+    import { getRaccoons, getDistrictStats } from '@/api/raccoonApi.js'
 
     export default {
         name: 'RaccoonDogMap',
@@ -76,13 +76,13 @@
                 }
             },
             async loadData() {
-                const result = await getRaccoonList()
+                const result = await getRaccoons()
                 if (result.list) {
                     this.markers = result.list.map(raccoon => ({
                         id: raccoon.id,
                         latitude: raccoon.latitude,
                         longitude: raccoon.longitude,
-                        iconPath: raccoon.avatar || '/static/images/raccoons/default.png',
+                        iconPath: raccoon.avatar,
                         width: 40,
                         height: 40,
                         callout: {

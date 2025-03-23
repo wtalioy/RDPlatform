@@ -1,43 +1,38 @@
-const cloud = require('wx-server-sdk')
+const cloud = require("@cloudbase/node-sdk");
+const wxContext = require("wx-server-sdk").getWXContext();
 
-cloud.init({
-    env: cloud.DYNAMIC_CURRENT_ENV
-})
+const app = cloud.init({
+    env: cloud.DYNAMIC_CURRENT_ENV,
+});
 
-const db = cloud.database()
+const models = app.models;
 
 exports.main = async (event, context) => {
-    try {
-        const wxContext = cloud.getWXContext()
-
-        const result = await db.collection('user_contributions')
-            .where({
-                openid: wxContext.OPENID
-            })
-            .get()
-
-        if (result.data.length === 0) {
-            return {
-                success: true,
-                data: {
-                    count: 0,
-                    hasUnlockedReward: false
+    const { data } = await models.user_contributions.get({
+        filter: {
+            where: {
+                openid: {
+                    $eq: wxContext.OPENID
                 }
             }
         }
+    });
 
+    if (!data) {
         return {
             success: true,
             data: {
-                count: result.data[0].count,
-                hasUnlockedReward: result.data[0].hasUnlockedReward
+                count: 0,
+                hasUnlockedReward: false
             }
-        }
-    } catch (err) {
-        console.error('获取用户贡献数据失败：', err)
-        return {
-            success: false,
-            error: err
-        }
+        };
     }
+
+    return {
+        success: true,
+        data: {
+            count: Number(data.count),
+            hasUnlockedReward: Boolean(data.hasUnlockedReward)
+        }
+    };
 }

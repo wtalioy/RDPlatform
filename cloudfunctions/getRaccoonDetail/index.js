@@ -1,58 +1,31 @@
-// 云函数入口文件
-const cloud = require('wx-server-sdk')
+const cloud = require("@cloudbase/node-sdk");
 
-cloud.init({
-    env: cloud.DYNAMIC_CURRENT_ENV
-})
+const app = cloud.init({
+    env: cloud.DYNAMIC_CURRENT_ENV,
+});
 
-const db = cloud.database()
+const models = app.models;
 
-// 云函数入口函数
 exports.main = async (event, context) => {
-    try {
-        const { district, page = 1, pageSize = 10 } = event
-        const skip = (page - 1) * pageSize
+    const { id } = event;
 
-        let query = {}
-        if (district) {
-            query.district = district
-        }
-
-        // 获取总数
-        const countResult = await db.collection('raccoons')
-            .where(query)
-            .count()
-
-        // 获取列表数据
-        const { data } = await db.collection('raccoons')
-            .where(query)
-            .skip(skip)
-            .limit(pageSize)
-            .orderBy('createdAt', 'desc')
-            .get()
-
-        // 确保数值类型正确
-        const formattedData = data.map(raccoon => ({
-            ...raccoon,
-            latitude: Number(raccoon.latitude),
-            longitude: Number(raccoon.longitude),
-            id: Number(raccoon.id)
-        }))
-
-        return {
-            success: true,
-            data: {
-                list: formattedData,
-                total: countResult.total,
-                page,
-                pageSize
+    const { data } = await models.raccoons.get({
+        filter: {
+            where: {
+                id: {
+                    $eq: Number(id)
+                }
             }
         }
-    } catch (err) {
-        console.error('获取貉数据失败：', err)
-        return {
-            success: false,
-            error: err
-        }
-    }
+    });
+
+    return {
+        success: true,
+        data: data ? {
+            ...data,
+            latitude: Number(data.latitude),
+            longitude: Number(data.longitude),
+            id: Number(data.id)
+        } : null
+    };
 }

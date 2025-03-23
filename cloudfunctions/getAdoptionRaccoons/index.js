@@ -1,50 +1,37 @@
-// 云函数入口文件
-const cloud = require('wx-server-sdk')
+const cloud = require("@cloudbase/node-sdk");
 
-cloud.init({
-    env: cloud.DYNAMIC_CURRENT_ENV
-})
+const app = cloud.init({
+    env: cloud.DYNAMIC_CURRENT_ENV,
+});
 
-const db = cloud.database()
+const models = app.models;
 
-// 云函数入口函数
 exports.main = async (event, context) => {
-    try {
-        const { onlyAvailable = false, page = 1, pageSize = 10 } = event
-        const skip = (page - 1) * pageSize
+    const { onlyAvailable, page = 1, pageSize = 10 } = event;
 
-        // 构建查询条件
-        let query = {}
-        if (onlyAvailable) {
-            query.isAdopted = false
-        }
-
-        // 获取总数
-        const countResult = await db.collection('adoptionRaccoons')
-            .where(query)
-            .count()
-
-        // 获取列表数据
-        const { data } = await db.collection('adoptionRaccoons')
-            .where(query)
-            .skip(skip)
-            .limit(pageSize)
-            .get()
-
-        return {
-            success: true,
-            data: {
-                list: data,
-                total: countResult.total,
-                page,
-                pageSize
+    const filter = {
+        where: onlyAvailable ? {
+            isAdopted: {
+                $eq: false
             }
+        } : {}
+    };
+
+    const { data } = await models.adoptionRaccoons.list({
+        filter,
+        pageSize,
+        pageNumber: page
+    });
+
+    return {
+        success: true,
+        data: {
+            list: data.records.map(item => ({
+                ...item,
+                id: Number(item.id),
+                isAdopted: Boolean(item.isAdopted)
+            })),
+            total: data.total
         }
-    } catch (err) {
-        console.error('获取认养貉列表失败：', err)
-        return {
-            success: false,
-            error: err
-        }
-    }
+    };
 }

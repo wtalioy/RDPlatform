@@ -104,7 +104,7 @@
 </script>
 
 <style>
-    @import '@/static/css/adoption/adoption-common.css';
+    @import '@/static/css/adoption/common.css';
 
     .raccoon-detail {
         min-height: 100vh;

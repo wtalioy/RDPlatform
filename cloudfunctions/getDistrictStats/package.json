@@ -1,9 +1,9 @@
 {
     "name": "getDistrictStats",
     "version": "1.0.0",
-    "description": "获取区域貉统计数据",
+    "description": "获取区域统计数据",
     "main": "index.js",
     "dependencies": {
-        "wx-server-sdk": "~2.6.3"
+        "@cloudbase/node-sdk": "3.2"
     }
 }

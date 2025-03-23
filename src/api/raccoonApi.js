@@ -1,12 +1,12 @@
 // 地图相关API
-export const getRaccoonList = async () => {
+export const getRaccoons = async () => {
     try {
         const { result } = await wx.cloud.callFunction({
-            name: 'getRaccoonDetail'
+            name: 'getRaccoons'
         })
         return result.success ? result.data : { list: [], total: 0 }
     } catch (error) {
-        console.error('获取貉列表失败：', error)
+        console.error('获取貉失败：', error)
         return { list: [], total: 0 }
     }
 }

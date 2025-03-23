@@ -4,6 +4,7 @@
     "description": "获取用户贡献数据",
     "main": "index.js",
     "dependencies": {
-        "wx-server-sdk": "~2.6.3"
+        "@cloudbase/node-sdk": "3.2",
+        "wx-server-sdk": "3.0.1"
     }
 }

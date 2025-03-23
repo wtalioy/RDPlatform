@@ -4,6 +4,6 @@
     "description": "更新貉的认养状态",
     "main": "index.js",
     "dependencies": {
-        "wx-server-sdk": "~2.6.3"
+        "@cloudbase/node-sdk": "3.2"
     }
 }

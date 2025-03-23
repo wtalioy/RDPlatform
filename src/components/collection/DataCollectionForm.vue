@@ -137,7 +137,6 @@
                         story: this.formData.story,
                         images: uploadedImages,
                         location: this.formData.location,
-                        timestamp: new Date().toISOString()
                     })
 
                     if (result.success) {
@@ -149,7 +148,6 @@
                             story: '',
                             images: [],
                             location: null,
-                            timestamp: null
                         }
                         this.locationText = '尚未获取位置'
                         setTimeout(() => {

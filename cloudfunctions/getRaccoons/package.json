@@ -1,7 +1,7 @@
 {
-    "name": "getAdoptionRaccoonDetail",
+    "name": "getRaccoons",
     "version": "1.0.0",
-    "description": "获取认养貉详细信息",
+    "description": "获取貉列表数据",
     "main": "index.js",
     "dependencies": {
         "@cloudbase/node-sdk": "3.2"

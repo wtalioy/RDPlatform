@@ -4,6 +4,7 @@
     "description": "提交野生动物观察数据",
     "main": "index.js",
     "dependencies": {
-        "wx-server-sdk": "~2.6.3"
+        "@cloudbase/node-sdk": "3.2",
+        "wx-server-sdk": "3.0.1"
     }
 }

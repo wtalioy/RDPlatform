@@ -1,29 +1,26 @@
-// 云函数入口文件
-const cloud = require('wx-server-sdk')
+const cloud = require("@cloudbase/node-sdk");
 
-cloud.init({
-    env: cloud.DYNAMIC_CURRENT_ENV
-})
+const app = cloud.init({
+    env: cloud.DYNAMIC_CURRENT_ENV,
+});
 
-const db = cloud.database()
+const models = app.models;
 
-// 云函数入口函数
 exports.main = async (event, context) => {
-    try {
-        const { data } = await db.collection('district_stats')
-            .orderBy('district', 'asc')
-            .get()
+    const { data } = await models.district_stats.list({
+        filter: {
+            where: {}
+        }
+    });
 
-        return {
-            success: true,
-            data: {
-                list: data
-            }
+    return {
+        success: true,
+        data: {
+            list: data.records.map(item => ({
+                ...item,
+                count: Number(item.count),
+                id: Number(item.id)
+            }))
         }
-    } catch (err) {
-        return {
-            success: false,
-            error: err
-        }
-    }
+    };
 }
