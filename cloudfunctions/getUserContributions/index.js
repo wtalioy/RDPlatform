@@ -1,5 +1,5 @@
 const cloud = require("@cloudbase/node-sdk");
-const wxContext = require("wx-server-sdk").getWXContext();
+const server = require("wx-server-sdk");
 
 const app = cloud.init({
     env: cloud.DYNAMIC_CURRENT_ENV,
@@ -8,6 +8,7 @@ const app = cloud.init({
 const models = app.models;
 
 exports.main = async (event, context) => {
+    const wxContext = server.getWXContext();
     const { data } = await models.user_contributions.get({
         filter: {
             where: {

@@ -1,5 +1,5 @@
 const cloud = require("@cloudbase/node-sdk");
-const wxContext = require("wx-server-sdk").getWXContext();
+const server = require("wx-server-sdk");
 
 const app = cloud.init({
     env: cloud.DYNAMIC_CURRENT_ENV,
@@ -9,6 +9,7 @@ const models = app.models;
 
 exports.main = async (event, context) => {
     const { story, images, location } = event;
+    const wxContext = server.getWXContext();
 
     // 保存野生动物数据
     const { data: wildlifeData } = await models.wildlife_data.create({
