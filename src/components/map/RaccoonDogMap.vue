@@ -1,11 +1,11 @@
 <template>
     <view class="map-container">
         <map id="map" :latitude="centerLatitude" :longitude="centerLongitude" :markers="markers" :show-location="true"
-            :scale="mapScale" @markertap="onMarkerTap" :layer-style="layerStyle" class="map">
+            max-scale=12 @markertap="onMarkerTap" class="map">
         </map>
 
         <!-- 可折叠统计面板 -->
-        <view class="stats-panel">
+        <!-- <view class="stats-panel">
             <view class="stats-header" @click="toggleStats">
                 <text class="stats-title">貉口数量</text>
                 <i class="iconfont icon-angle-right togglebtn" :class="{ rotate: isStatsExpanded }"></i>
@@ -20,7 +20,7 @@
                     </view>
                 </scroll-view>
             </view>
-        </view>
+        </view> -->
 
         <!-- 地图控制按钮 -->
         <view class="map-controls">
@@ -43,21 +43,8 @@
                 markers: [],
                 centerLatitude: 31.230416,
                 centerLongitude: 121.473701,
-                mapScale: 12,
-                defaultScale: 12,
                 isStatsExpanded: false,
                 districtStats: {},
-                totalCount: 0,
-                maxCount: 0,
-                layerStyle: {
-                    subwayLabel: false,
-                    subwayLine: false,
-                    roadLabel: false,
-                    building: true,
-                    highway: true,
-                    arterial: true,
-                    local: true
-                }
             }
         },
         methods: {
@@ -83,20 +70,20 @@
                         latitude: raccoon.latitude,
                         longitude: raccoon.longitude,
                         iconPath: raccoon.avatar,
-                        width: 50,
-                        height: 50,
+                        width: 70,
+                        height: 70,
                         callout: {
                             content: raccoon.name,
-                            color: '#333333',
-                            fontSize: 13,
-                            borderRadius: 15,
-                            bgColor: 'rgba(255, 255, 255, 0.95)',
-                            padding: 8,
+                            color: '#ffffff',
+                            fontSize: 14,
+                            borderRadius: 20,
+                            bgColor: 'rgba(74, 123, 90, 0.95)',
+                            padding: 10,
                             display: 'ALWAYS',
-                            borderWidth: 1,
-                            borderColor: '#E0E0E0',
+                            borderWidth: 2,
+                            borderColor: '#3d6a4c',
                             textAlign: 'center',
-                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
                         }
                     }))
                 }

@@ -31,15 +31,6 @@
                 <text class="section-content">{{ raccoonInfo.story }}</text>
             </view>
 
-            <view class="gallery common-card">
-                <text class="section-title">活动照片</text>
-                <scroll-view class="gallery-scroll" scroll-x>
-                    <view class="gallery-item" v-for="(photo, index) in raccoonInfo.photos" :key="index">
-                        <image :src="photo" mode="aspectFill" @tap="previewImage(photo)" />
-                    </view>
-                </scroll-view>
-            </view>
-
             <button class="adoption-button" @tap="goBack">返回地图</button>
         </view>
         <view v-else class="error common-card">
@@ -70,15 +61,8 @@
                 try {
                     this.loading = true
                     const result = await getRaccoonDetail(this.raccoonId)
-                    if (result && result.list && result.list[0]) {
-                        this.raccoonInfo = result.list[0]
-                        // 获取云存储图片的临时访问链接
-                        if (this.raccoonInfo.photos && this.raccoonInfo.photos.length > 0) {
-                            const { fileList } = await wx.cloud.getTempFileURL({
-                                fileList: this.raccoonInfo.photos
-                            })
-                            this.raccoonInfo.photos = fileList.map(file => file.tempFileURL)
-                        }
+                    if (result && result.avatar) {
+                        this.raccoonInfo = result
                     }
                 } catch (error) {
                     console.error('获取貉详情失败：', error)
@@ -92,12 +76,6 @@
             },
             goBack() {
                 uni.navigateBack()
-            },
-            previewImage(current) {
-                uni.previewImage({
-                    current,
-                    urls: this.raccoonInfo.photos
-                })
             }
         }
     }
