@@ -1,0 +1,195 @@
+/* 认养指南页面样式 */
+@import url('@/static/css/adoption/common.css');
+
+.adoption-guide {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #f8fcf7 0%, #eaf5f5 100%);
+    padding: 40rpx 30rpx;
+    box-sizing: border-box;
+}
+
+.guide-content {
+    padding-bottom: 150rpx;
+}
+
+.guide-section {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 24rpx;
+    padding: 30rpx;
+    margin-bottom: 30rpx;
+    box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.08);
+    border: 1rpx solid rgba(255, 255, 255, 0.8);
+}
+
+.section-title {
+    font-size: 32rpx;
+    font-weight: bold;
+    color: #3d6a4c;
+    margin-bottom: 20rpx;
+    display: block;
+}
+
+.section-content {
+    font-size: 28rpx;
+    color: #555;
+    line-height: 1.6;
+}
+
+.benefit-list {
+    padding: 10rpx 0;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20rpx;
+}
+
+.benefit-icon {
+    font-size: 36rpx;
+    margin-right: 20rpx;
+}
+
+.benefit-text {
+    font-size: 28rpx;
+    color: #555;
+}
+
+/* 认养流程样式 */
+.process-steps {
+    padding: 20rpx 0;
+}
+
+.process-step {
+    display: flex;
+    margin-bottom: 30rpx;
+}
+
+.step-number {
+    width: 60rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    text-align: center;
+    background: #4A7B5A;
+    color: #fff;
+    border-radius: 30rpx;
+    font-size: 30rpx;
+    font-weight: bold;
+    margin-right: 20rpx;
+    flex-shrink: 0;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-title {
+    font-size: 30rpx;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 6rpx;
+    display: block;
+}
+
+.step-desc {
+    font-size: 26rpx;
+    color: #666;
+}
+
+/* 捐赠使用情况样式 */
+.donation-usage {
+    padding: 20rpx 0;
+}
+
+.usage-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20rpx;
+}
+
+.usage-percent {
+    width: 60rpx;
+    font-size: 28rpx;
+    font-weight: bold;
+    color: #4A7B5A;
+    text-align: center;
+    margin-right: 20rpx;
+}
+
+.usage-bar {
+    flex: 1;
+    height: 20rpx;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10rpx;
+    overflow: hidden;
+    margin-right: 20rpx;
+}
+
+.usage-fill {
+    height: 100%;
+    background: #4A7B5A;
+    border-radius: 10rpx;
+}
+
+.usage-desc {
+    width: 200rpx;
+    font-size: 26rpx;
+    color: #555;
+}
+
+/* FAQ样式 */
+.faq-list {
+    padding: 10rpx 0;
+}
+
+.faq-item {
+    margin-bottom: 20rpx;
+}
+
+.faq-question {
+    font-size: 30rpx;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10rpx;
+    display: block;
+}
+
+.faq-answer {
+    font-size: 28rpx;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* 底部按钮样式 */
+.action-buttons {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 30rpx;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.1);
+}
+
+.action-btn {
+    width: 46%;
+    height: 90rpx;
+    line-height: 90rpx;
+    border-radius: 45rpx;
+    font-size: 32rpx;
+    font-weight: bold;
+}
+
+.contact-btn {
+    background: #fff;
+    color: #4A7B5A;
+    border: 2rpx solid #4A7B5A;
+}
+
+.start-btn {
+    background: linear-gradient(135deg, #4A7B5A 0%, #3d6a4c 100%);
+    color: #fff;
+    box-shadow: 0 6rpx 20rpx rgba(74, 123, 90, 0.3);
+}
