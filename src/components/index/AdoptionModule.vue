@@ -52,7 +52,7 @@
                 <view v-else class="raccoon-cards">
                     <view v-for="(raccoon, index) in raccoonDogs" :key="index" class="raccoon-card"
                         @tap="showRaccoonDetail(raccoon)">
-                        <image :src="raccoon.avatar" mode="aspectFill" class="raccoon-avatar"></image>
+                        <!-- <image :src="raccoon.avatar" mode="aspectFill" class="raccoon-avatar"></image> -->
                         <view class="raccoon-info">
                             <text class="raccoon-name">{{ raccoon.name }}</text>
                             <view class="tag-container">
@@ -110,13 +110,11 @@
             async fetchRaccoonDogs() {
                 try {
                     this.loading = true
-                    // 获取所有貉列表（不论是否已被认养）
                     const result = await getAdoptionRaccoons(false, 1, 20)
 
                     if (result && result.list && result.list.length > 0) {
                         this.raccoonDogs = result.list
                     } else if (!this.initialized) {
-                        // 首次加载且未找到数据，尝试初始化数据
                         await this.initializeRaccoonDogs()
                     }
                 } catch (error) {

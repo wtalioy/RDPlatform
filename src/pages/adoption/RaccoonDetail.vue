@@ -2,7 +2,7 @@
     <view class="raccoon-detail">
 
         <view class="raccoon-profile">
-            <image :src="raccoon.avatar" mode="aspectFill" class="profile-avatar"></image>
+            <!-- <image :src="raccoon.avatar" mode="aspectFill" class="profile-avatar"></image> -->
             <view class="profile-info">
                 <text class="profile-name">{{ raccoon.name }}</text>
                 <text class="profile-location">{{ raccoon.location }}</text>
