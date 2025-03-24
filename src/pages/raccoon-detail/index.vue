@@ -9,10 +9,10 @@
                 <view class="raccoon-info">
                     <text class="raccoon-name">{{ raccoonInfo.name }}</text>
                     <text class="raccoon-location">所在区域：{{ raccoonInfo.district }}</text>
-                    <view class="tag-container">
+                    <!-- <view class="tag-container">
                         <text class="common-tag">{{ raccoonInfo.gender === 'male' ? '♂' : '♀' }}</text>
-                        <text class="common-tag">{{ raccoonInfo.age }}岁</text>
-                    </view>
+                        <text class="common-tag">{{ raccoonInfo.age }}岁</text> -->
+                    <!-- </view> -->
                 </view>
             </view>
 
