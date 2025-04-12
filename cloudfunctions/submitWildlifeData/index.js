@@ -32,7 +32,7 @@ exports.main = async (event, context) => {
         }
     });
 
-    if (!userContrib) {
+    if (!userContrib || !userContrib.count) {
         // 创建新用户贡献记录
         await models.user_contributions.create({
             data: {

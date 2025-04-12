@@ -32,8 +32,8 @@ exports.main = async (event, context) => {
     return {
         success: true,
         data: {
-            count: Number(data.count),
-            hasUnlockedReward: Boolean(data.hasUnlockedReward)
+            count: data.count ? Number(data.count) : 0,
+            hasUnlockedReward: data.hasUnlockedReward ? Boolean(data.hasUnlockedReward) : false
         }
     };
 }
