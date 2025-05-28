@@ -1,11 +1,5 @@
 <template>
     <view class="data-collection">
-        <view class="header">
-            <button class="back-btn" @tap="goBack">
-                <text class="iconfont icon-back"></text>
-                <text>返回</text>
-            </button>
-        </view>
 
         <view class="form-container">
             <!-- 故事分享 -->
@@ -16,14 +10,14 @@
                 <text class="word-count">{{ formData.story.length }}/1000</text>
             </view>
 
-            <!-- 影像上传 -->
+            <!-- 图片上传 -->
             <view class="form-section">
-                <text class="section-title">上传影像</text>
+                <text class="section-title">上传图片</text>
                 <view class="image-upload">
                     <view class="image-list">
                         <view v-for="(image, index) in formData.images" :key="index" class="image-item">
                             <image :src="image" mode="aspectFill" @tap="previewImage(image)" />
-                            <text class="delete-btn" @tap="deleteImage(index)">×</text>
+                            <text class="delete-btn iconfont icon-delete" @tap="deleteImage(index)"></text>
                         </view>
                         <view v-if="formData.images.length < 9" class="upload-btn" @tap="chooseImage">
                             <text class="plus">+</text>
@@ -123,7 +117,7 @@
                 if (!this.canSubmit) return
 
                 uni.showLoading({
-                    title: '正在提交...'
+                    title: '提交中...'
                 })
 
                 try {
@@ -141,8 +135,9 @@
 
                     if (result.success) {
                         uni.showToast({
-                            title: '提交成功',
-                            icon: 'success'
+                            title: '提交成功！将在24小时内审核',
+                            icon: 'success',
+                            duration: 2000,
                         })
                         this.formData = {
                             story: '',
@@ -152,7 +147,7 @@
                         this.locationText = '尚未获取位置'
                         setTimeout(() => {
                             this.goBack()
-                        }, 1500)
+                        }, 1000)
                     }
                 } catch (error) {
                     uni.showToast({
@@ -308,7 +303,6 @@
         height: 200rpx;
         position: relative;
         border-radius: 16rpx;
-        overflow: hidden;
         box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.15);
         transition: transform 0.2s ease;
     }
@@ -325,11 +319,11 @@
 
     .delete-btn {
         position: absolute;
-        top: -15rpx;
-        right: -15rpx;
+        top: -12rpx;
+        right: -12rpx;
         width: 44rpx;
         height: 44rpx;
-        background: rgba(220, 53, 69, 0.9);
+        background: rgba(220, 53, 69, 0.95);
         color: #fff;
         border-radius: 50%;
         display: flex;
