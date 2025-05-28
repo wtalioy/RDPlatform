@@ -35,7 +35,7 @@
                     <text class="progress-text">已集齐 {{ userContributions }} 条足迹</text>
                     <text class="progress-goal">目标: {{ requiredContributions }} 条</text>
                 </view>
-                <view class="reward-container" v-if="!hasUnlockedReward && userContributions >= requiredContributions">
+                <view class="reward-container" v-if="hasUnlockedReward && userContributions >= requiredContributions">
                     <view class="reward-badge">
                         <text class="reward-emoji">🎉</text>
                     </view>
