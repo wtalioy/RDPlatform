@@ -73,19 +73,19 @@
                         iconPath: raccoon.avatar,
                         width: 65,
                         height: 65,
-                        callout: {
-                            content: raccoon.name,
-                            color: '#ffffff',
-                            fontSize: 14,
-                            borderRadius: 20,
-                            bgColor: 'rgba(74, 123, 90, 0.95)',
-                            padding: 10,
-                            display: 'ALWAYS',
-                            borderWidth: 2,
-                            borderColor: '#3d6a4c',
-                            textAlign: 'center',
-                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-                        }
+                        // callout: {
+                        //     content: raccoon.name,
+                        //     color: '#ffffff',
+                        //     fontSize: 14,
+                        //     borderRadius: 20,
+                        //     bgColor: 'rgba(74, 123, 90, 0.95)',
+                        //     padding: 10,
+                        //     display: 'ALWAYS',
+                        //     borderWidth: 2,
+                        //     borderColor: '#3d6a4c',
+                        //     textAlign: 'center',
+                        //     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                        // }
                     }))
                 }
             },
